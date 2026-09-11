@@ -1,4 +1,4 @@
-# SupportAI — Active Learning RAG Support Platform
+# SupportAI 
 
 
 ## Overview
