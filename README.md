@@ -76,40 +76,6 @@ Most customer support bots are passive: if documentation is missing, they fail s
 │ (Gemini / OpenAI / Anthropic)│      Relevant Chunks        │  (Vector Embeddings Engine)  │
 └──────────────────────────────┘                             └──────────────┴───────────────┘
 ```
-
----
-
-## RAG & Active Learning Pipeline
-
-```mermaid
-flowchart TD
-    subgraph Ingestion ["1. Document Ingestion Pipeline"]
-        A[Upload PDF / DOCX / TXT / URL] --> B[Celery Async Task]
-        B --> C[Extract Raw Text]
-        C --> D[Chunk Text: 500 words / 50 overlap]
-        D --> E[Generate Embeddings via SentenceTransformer]
-        E --> F[Persist to FAISS Vector Index]
-    end
-
-    subgraph Retrieval ["2. Query & Answer Generation"]
-        G[User Query via Widget / API] --> H{Check FAQ Overrides}
-        H -- Match Found --> I[Return Instant Overridden Answer]
-        H -- No Match --> J[Embed Query Vector]
-        J --> K[Search FAISS for Top-5 Chunks]
-        K --> L[Synthesize Answer via LLM with Context]
-        L --> M{Confidence Score Check}
-    end
-
-    subgraph Learning ["3. Active Learning & Gap Detection"]
-        M -- High Confidence --> N[Deliver Response to User]
-        M -- Low Confidence --> O[Escalate to Human Agent & Log Gap]
-        O --> P[Aggregate Unanswered Patterns]
-        P --> Q[Display Knowledge Gap in Admin Dashboard]
-        Q --> R[Admin Uploads Missing Info]
-        R --> Ingestion
-    end
-```
-
 ---
 
 ## Project Structure
