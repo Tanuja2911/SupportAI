@@ -3,7 +3,7 @@
 
 ## Overview
 
-**SupportAI** enables businesses to instantly deploy AI-powered support agents grounded entirely in their proprietary knowledge sources. Unlike generic AI bots, SupportAI operates under a strict zero-hallucination constraint: it synthesizes answers **only** from verified uploaded documentation.
+**SupportAI** lets businesses create and embed AI-powered customer support chatbots that answer questions using their own private documentation and knowledge base.
 
 ### What Makes SupportAI Unique?
 Most customer support bots are passive: if documentation is missing, they fail silently or apologize repeatedly. SupportAI incorporates **Active Learning Paradigms** to:
