@@ -38,19 +38,16 @@
         </section>
 
         <section aria-label="Support activity">
-          <div class="mb-3 flex items-center justify-between">
-            <h3 class="text-sm font-semibold text-stone-800">Support activity</h3>
-            <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>Live overview</span>
-          </div>
+          <div class="mb-3"><h3 class="text-sm font-semibold text-stone-800">Key metrics</h3></div>
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <article v-for="stat in stats" :key="stat.label" class="group relative overflow-hidden rounded-2xl border border-stone-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <article v-for="stat in stats.slice(0, 4)" :key="stat.label" class="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
               <div class="flex items-start justify-between gap-3">
                 <div>
                   <p class="text-sm font-medium text-stone-500">{{ stat.label }}</p>
                   <p class="mt-3 text-3xl font-bold tracking-tight text-stone-900">{{ stat.value }}</p>
                 </div>
-                <span class="flex h-10 w-10 items-center justify-center rounded-xl" :class="stat.iconBg">
-                  <svg class="h-5 w-5" :class="stat.iconColor" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24" aria-hidden="true">
+                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-50 text-pink-600">
+                  <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24" aria-hidden="true">
                     <path v-if="stat.icon === 'chat'" stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h6m-9 8 3.2-3H18a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v14Z" />
                     <path v-else-if="stat.icon === 'alert'" stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 4h.01M10.3 4.5 2.9 17.3A1.8 1.8 0 0 0 4.5 20h15a1.8 1.8 0 0 0 1.6-2.7L13.7 4.5a2 2 0 0 0-3.4 0Z" />
                     <path v-else-if="stat.icon === 'confidence'" stroke-linecap="round" stroke-linejoin="round" d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z" />
@@ -62,8 +59,13 @@
                   </svg>
                 </span>
               </div>
-              <div class="absolute inset-x-0 bottom-0 h-1" :class="stat.accent"></div>
             </article>
+          </div>
+          <div class="mt-3 grid grid-cols-2 gap-3 rounded-2xl border border-stone-200 bg-white px-4 py-3 sm:grid-cols-4">
+            <div v-for="stat in stats.slice(4)" :key="stat.label" class="flex items-center justify-between gap-2 px-1 py-1 sm:px-3">
+              <span class="text-xs font-medium text-stone-500 sm:text-sm">{{ stat.label }}</span>
+              <span class="text-base font-semibold text-stone-800">{{ stat.value }}</span>
+            </div>
           </div>
         </section>
 
@@ -139,14 +141,14 @@ const stats = computed(() => {
   if (!dashboard.value) return []
   const d = dashboard.value
   return [
-    { label: 'Total conversations', value: d.total_conversations, icon: 'chat', iconBg: 'bg-pink-50', iconColor: 'text-pink-600', accent: 'bg-pink-500' },
-    { label: 'Active conversations', value: d.active_conversations, icon: 'sparkle', iconBg: 'bg-emerald-50', iconColor: 'text-emerald-600', accent: 'bg-emerald-500' },
-    { label: 'Escalated', value: d.escalated_conversations, icon: 'alert', iconBg: 'bg-rose-50', iconColor: 'text-rose-600', accent: 'bg-rose-500' },
-    { label: 'Average confidence', value: (d.avg_confidence * 100).toFixed(1) + '%', icon: 'confidence', iconBg: 'bg-rose-50', iconColor: 'text-rose-600', accent: 'bg-rose-500' },
-    { label: 'Total messages', value: d.total_messages, icon: 'message', iconBg: 'bg-amber-50', iconColor: 'text-amber-600', accent: 'bg-amber-500' },
-    { label: 'AI responses', value: d.ai_messages, icon: 'sparkle', iconBg: 'bg-pink-50', iconColor: 'text-pink-600', accent: 'bg-pink-500' },
-    { label: 'Knowledge documents', value: d.total_documents, icon: 'document', iconBg: 'bg-amber-50', iconColor: 'text-amber-600', accent: 'bg-amber-500' },
-    { label: 'Ready documents', value: d.ready_documents, icon: 'ready', iconBg: 'bg-teal-50', iconColor: 'text-teal-600', accent: 'bg-teal-500' },
+    { label: 'Total conversations', value: d.total_conversations, icon: 'chat' },
+    { label: 'Active conversations', value: d.active_conversations, icon: 'sparkle' },
+    { label: 'Escalated', value: d.escalated_conversations, icon: 'alert' },
+    { label: 'Average confidence', value: (d.avg_confidence * 100).toFixed(1) + '%', icon: 'confidence' },
+    { label: 'Total messages', value: d.total_messages },
+    { label: 'AI responses', value: d.ai_messages },
+    { label: 'Knowledge documents', value: d.total_documents },
+    { label: 'Ready documents', value: d.ready_documents },
   ]
 })
 
