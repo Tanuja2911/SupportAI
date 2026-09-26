@@ -109,7 +109,7 @@ const stats = computed(() => {
 
 const embedCode = computed(() => {
   const key = businessStore.currentBusiness?.api_key || 'YOUR_API_KEY'
-  return `<script src="${window.location.origin}/widget.js"><\/script>
+  return `<script src="${window.location.origin}/widget/widget.js"><\/script>
 <script>
   SupportAI.init({ apiKey: '${key}' });
 <\/script>`
