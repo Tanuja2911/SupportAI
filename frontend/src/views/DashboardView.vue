@@ -54,6 +54,7 @@
       <!-- API Key -->
       <div class="bg-white rounded-xl border border-gray-200 p-5">
         <h3 class="text-sm font-medium text-gray-700 mb-2">Your API Key</h3>
+        <p class="mb-3 text-sm text-gray-500">This key identifies which business the SupportAI chat widget connects to. It is included in the embed code for your website.</p>
         <div class="flex items-center gap-3">
           <code class="flex-1 bg-gray-100 px-4 py-2 rounded-lg text-sm font-mono text-gray-600 truncate">
             {{ showKey ? businessStore.currentBusiness?.api_key : '************************************' }}
