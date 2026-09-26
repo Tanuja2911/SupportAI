@@ -69,7 +69,18 @@
 
       <!-- Embed Code -->
       <div class="bg-white rounded-xl border border-gray-200 p-5">
-        <h3 class="text-sm font-medium text-gray-700 mb-2">Embed Chat Widget</h3>
+        <div class="flex items-center justify-between gap-4 mb-2">
+          <h3 class="text-sm font-medium text-gray-700">Add the chat widget to your website</h3>
+          <button @click="copyEmbedCode" class="text-sm text-indigo-600 hover:underline whitespace-nowrap">
+            Copy embed code
+          </button>
+        </div>
+        <ol class="mb-4 list-decimal space-y-1 pl-5 text-sm text-gray-600">
+          <li>Copy the code below.</li>
+          <li>Paste it into your website HTML just before the closing <code>&lt;/body&gt;</code> tag. In a website builder, use its footer or custom-code area.</li>
+          <li>Save and publish your website, then open it and try the chat bubble.</li>
+        </ol>
+        <p class="mb-3 text-xs text-gray-500">The <code>src</code> link loads the widget file from your SupportAI server. You do not need to download that file. The key in this snippet connects the widget to this business; do not put your Gemini key in your website code.</p>
         <pre class="bg-gray-900 text-green-400 p-4 rounded-lg text-sm overflow-x-auto">{{ embedCode }}</pre>
       </div>
     </div>
@@ -117,6 +128,10 @@ const embedCode = computed(() => {
 
 function copyKey() {
   navigator.clipboard.writeText(businessStore.currentBusiness?.api_key || '')
+}
+
+function copyEmbedCode() {
+  navigator.clipboard.writeText(embedCode.value)
 }
 
 onMounted(async () => {
