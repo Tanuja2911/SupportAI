@@ -8,14 +8,14 @@
       <button
         @click="analyze"
         :disabled="analyzing"
-        class="px-4 py-2 bg-pink-600 text-white rounded-lg text-sm font-medium hover:bg-pink-700 transition disabled:opacity-50"
+        class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition disabled:opacity-50"
       >
         {{ analyzing ? 'Analyzing...' : 'Run Analysis' }}
       </button>
     </div>
 
     <!-- How it works -->
-    <div class="bg-pink-50 border border-gray-200 rounded-lg p-4 mb-6 text-sm text-gray-500">
+    <div class="bg-blue-50 border border-gray-200 rounded-lg p-4 mb-6 text-sm text-gray-500">
       Analyzes low-confidence AI responses and escalated conversations to find topics your documents don't cover. Based on active learning — the AI identifies what it doesn't know and tells you what to add.
     </div>
 
@@ -40,7 +40,7 @@
             <div class="flex items-center gap-3 mb-2">
               <h3 class="font-semibold text-gray-800">{{ gap.topic }}</h3>
               <span class="px-2 py-0.5 rounded-full text-xs font-medium"
-                :class="gap.status === 'resolved' ? 'bg-green-100 text-green-700' : 'bg-pink-100 text-pink-700'"
+                :class="gap.status === 'resolved' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'"
               >
                 {{ gap.status === 'resolved' ? 'Resolved' : 'Open' }}
               </span>
@@ -49,9 +49,9 @@
             <p class="text-sm text-gray-600 mb-3">{{ gap.description }}</p>
 
             <!-- Suggestion -->
-            <div class="bg-pink-50 rounded-lg p-3 mb-3">
-              <p class="text-xs font-medium text-pink-700 mb-1">Suggested Action</p>
-              <p class="text-sm text-pink-600">{{ gap.suggestion }}</p>
+            <div class="bg-blue-50 rounded-lg p-3 mb-3">
+              <p class="text-xs font-medium text-blue-700 mb-1">Suggested Action</p>
+              <p class="text-sm text-blue-600">{{ gap.suggestion }}</p>
             </div>
 
             <!-- Sample queries -->

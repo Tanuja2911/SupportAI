@@ -4,7 +4,7 @@
       <h2 class="text-2xl font-bold text-gray-800">Team Members</h2>
       <button
         @click="showModal = true"
-        class="px-4 py-2 bg-pink-600 text-white rounded-lg text-sm font-medium hover:bg-pink-700 transition"
+        class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition"
       >
         Invite Member
       </button>
@@ -19,7 +19,7 @@
         <div class="flex items-center gap-4">
           <span
             class="px-2 py-1 rounded-full text-xs font-medium"
-            :class="m.role === 'owner' ? 'bg-pink-100 text-pink-700' : m.role === 'agent' ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-700'"
+            :class="m.role === 'owner' ? 'bg-blue-100 text-blue-700' : m.role === 'agent' ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-700'"
           >
             {{ m.role }}
           </span>
@@ -42,7 +42,7 @@
           v-model="inviteEmail"
           type="email"
           placeholder="member@company.com"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-3 outline-none focus:ring-2 focus:ring-pink-500"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-3 outline-none focus:ring-2 focus:ring-blue-500"
         />
         <select v-model="inviteRole" class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 outline-none">
           <option value="agent">Agent</option>
@@ -50,7 +50,7 @@
         </select>
         <div class="flex justify-end gap-3">
           <button @click="showModal = false" class="px-4 py-2 text-gray-500 text-sm">Cancel</button>
-          <button @click="addMember" class="px-4 py-2 bg-pink-600 text-white rounded-lg text-sm hover:bg-pink-700">Invite</button>
+          <button @click="addMember" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">Invite</button>
         </div>
       </div>
     </div>

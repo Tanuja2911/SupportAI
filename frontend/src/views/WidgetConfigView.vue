@@ -6,11 +6,11 @@
       <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Bot Name</label>
-          <input v-model="config.bot_name" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-pink-500" />
+          <input v-model="config.bot_name" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Welcome Message</label>
-          <textarea v-model="config.welcome_message" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-pink-500 resize-none"></textarea>
+          <textarea v-model="config.welcome_message" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Primary Color</label>
@@ -28,7 +28,7 @@
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Placeholder Text</label>
-          <input v-model="config.placeholder_text" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-pink-500" />
+          <input v-model="config.placeholder_text" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
         <div class="flex items-center gap-2">
           <input type="checkbox" v-model="config.show_branding" id="branding" class="rounded" />
@@ -38,7 +38,7 @@
         <button
           @click="saveConfig"
           :disabled="saving"
-          class="w-full bg-pink-600 text-white py-2.5 rounded-lg font-medium hover:bg-pink-700 transition disabled:opacity-50"
+          class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50"
         >
           {{ saving ? 'Saving...' : 'Save Configuration' }}
         </button>
@@ -51,7 +51,7 @@
           <div class="p-4 text-white text-sm font-medium" :style="{ backgroundColor: config.primary_color }">
             {{ config.bot_name }}
           </div>
-          <div class="p-4 bg-pink-50 min-h-[200px]">
+          <div class="p-4 bg-blue-50 min-h-[200px]">
             <div class="bg-white px-3 py-2 rounded-lg shadow-sm text-sm text-gray-700 inline-block">
               {{ config.welcome_message }}
             </div>

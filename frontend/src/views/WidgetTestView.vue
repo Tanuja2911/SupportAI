@@ -1,5 +1,5 @@
 <template>
-  <main class="min-h-screen bg-pink-50 px-6 py-12 text-stone-800">
+  <main class="min-h-screen bg-blue-50 px-6 py-12 text-stone-800">
     <section class="mx-auto max-w-2xl rounded-2xl border border-stone-200 bg-white p-8 shadow-sm">
       <h1 class="text-2xl font-bold">Test your SupportAI chat widget</h1>
       <p class="mt-3 text-stone-600">
@@ -17,7 +17,7 @@
       <button
         type="button"
         :disabled="loading"
-        class="mt-3 rounded-lg bg-pink-600 px-5 py-3 font-semibold text-white disabled:opacity-60"
+        class="mt-3 rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white disabled:opacity-60"
         @click="startTest"
       >
         {{ loading ? 'Loading…' : 'Start test' }}

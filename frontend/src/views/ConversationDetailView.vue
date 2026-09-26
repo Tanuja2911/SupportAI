@@ -1,6 +1,6 @@
 <template>
   <div class="p-8 max-w-3xl">
-    <router-link to="/app/conversations" class="text-pink-600 text-sm hover:underline mb-4 inline-block">
+    <router-link to="/app/conversations" class="text-blue-600 text-sm hover:underline mb-4 inline-block">
       &larr; Back to Conversations
     </router-link>
 
@@ -35,11 +35,11 @@
             v-model="agentReply"
             @keyup.enter="sendReply"
             placeholder="Type a reply as an agent..."
-            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-pink-500 text-sm"
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 text-sm"
           />
           <button
             @click="sendReply"
-            class="px-4 py-2 bg-pink-600 text-white rounded-lg text-sm hover:bg-pink-700 transition"
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition"
           >
             Send
           </button>
@@ -70,7 +70,7 @@ const convId = route.params.id
 
 function bubbleClass(sender) {
   if (sender === 'customer') return 'bg-gray-100 text-gray-800'
-  if (sender === 'ai') return 'bg-pink-100 text-pink-800'
+  if (sender === 'ai') return 'bg-blue-100 text-blue-800'
   return 'bg-green-100 text-green-800'
 }
 

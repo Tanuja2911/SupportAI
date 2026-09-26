@@ -8,7 +8,7 @@
         :key="f.value"
         @click="activeFilter = f.value"
         class="px-3 py-1.5 rounded-lg text-sm font-medium transition"
-        :class="activeFilter === f.value ? 'bg-pink-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-pink-50'"
+        :class="activeFilter === f.value ? 'bg-blue-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-blue-50'"
       >
         {{ f.label }}
       </button>
@@ -19,7 +19,7 @@
         v-for="conv in conversations"
         :key="conv.id"
         :to="`/app/conversations/${conv.id}`"
-        class="flex items-center justify-between px-6 py-4 hover:bg-pink-50 transition block"
+        class="flex items-center justify-between px-6 py-4 hover:bg-blue-50 transition block"
       >
         <div>
           <p class="font-medium text-gray-800">{{ conv.customer_name || 'Anonymous' }}</p>

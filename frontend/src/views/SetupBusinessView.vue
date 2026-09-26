@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-pink-50 to-pink-100 flex items-center justify-center p-4">
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
       <div class="text-center mb-8">
         <h1 class="text-2xl font-bold text-gray-800">Set Up Your Business</h1>
@@ -17,7 +17,7 @@
             v-model="name"
             type="text"
             required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             placeholder="Acme Corp"
           />
         </div>
@@ -26,7 +26,7 @@
           <textarea
             v-model="description"
             rows="3"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none resize-none"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
             placeholder="What does your business do?"
           ></textarea>
         </div>
@@ -35,14 +35,14 @@
           <input
             v-model="website"
             type="url"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             placeholder="https://acme.com"
           />
         </div>
         <button
           type="submit"
           :disabled="loading"
-          class="w-full bg-pink-600 text-white py-2.5 rounded-lg font-medium hover:bg-pink-700 transition disabled:opacity-50"
+          class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50"
         >
           {{ loading ? 'Creating...' : 'Create Business' }}
         </button>

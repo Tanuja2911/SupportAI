@@ -4,7 +4,7 @@
       <h2 class="text-2xl font-bold text-gray-800">Test Chat Sandbox</h2>
       <button
         @click="newChat"
-        class="px-4 py-2 border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-pink-50 transition"
+        class="px-4 py-2 border border-gray-300 text-gray-600 rounded-lg text-sm font-medium hover:bg-blue-50 transition"
       >
         New Chat
       </button>
@@ -22,7 +22,7 @@
         >
           <div
             class="max-w-[75%] px-4 py-3 rounded-xl text-sm"
-            :class="msg.role === 'user' ? 'bg-pink-600 text-white' : 'bg-gray-100 text-gray-800'"
+            :class="msg.role === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-800'"
           >
             <p class="whitespace-pre-wrap">{{ msg.content }}</p>
             <p v-if="msg.confidence" class="text-xs mt-1 opacity-60">
@@ -45,13 +45,13 @@
             v-model="input"
             @keyup.enter="sendMessage"
             placeholder="Ask your AI agent something..."
-            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-pink-500 text-sm"
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 text-sm"
             :disabled="thinking"
           />
           <button
             @click="sendMessage"
             :disabled="thinking || !input.trim()"
-            class="px-6 py-2 bg-pink-600 text-white rounded-lg text-sm hover:bg-pink-700 transition disabled:opacity-50"
+            class="px-6 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition disabled:opacity-50"
           >
             Send
           </button>

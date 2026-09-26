@@ -5,25 +5,25 @@
       <div class="flex gap-3">
         <button
           @click="showUrlModal = true"
-          class="px-4 py-2 border border-pink-600 text-pink-600 rounded-lg text-sm font-medium hover:bg-pink-50 transition"
+          class="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-50 transition"
         >
           Add URL
         </button>
-        <label class="px-4 py-2 bg-pink-600 text-white rounded-lg text-sm font-medium hover:bg-pink-700 transition cursor-pointer">
+        <label class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition cursor-pointer">
           Upload File
           <input type="file" class="hidden" accept=".pdf,.docx,.txt" @change="handleFileUpload" />
         </label>
       </div>
     </div>
 
-    <div v-if="uploading" class="bg-pink-50 text-pink-700 p-3 rounded-lg mb-4 text-sm">
+    <div v-if="uploading" class="bg-blue-50 text-blue-700 p-3 rounded-lg mb-4 text-sm">
       Uploading and processing document...
     </div>
 
     <!-- Documents Table -->
     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
       <table class="w-full">
-        <thead class="bg-pink-50 border-b border-gray-200">
+        <thead class="bg-blue-50 border-b border-gray-200">
           <tr>
             <th class="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">Title</th>
             <th class="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">Type</th>
@@ -34,7 +34,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
-          <tr v-for="doc in documents" :key="doc.id" class="hover:bg-pink-50">
+          <tr v-for="doc in documents" :key="doc.id" class="hover:bg-blue-50">
             <td class="px-6 py-4 text-sm font-medium text-gray-800">
               {{ doc.title }}
               <p v-if="doc.status === 'failed' && doc.error_message" class="mt-1 text-xs font-normal text-red-600">
@@ -73,17 +73,17 @@
           v-model="urlInput"
           type="url"
           placeholder="https://docs.example.com/faq"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-3 outline-none focus:ring-2 focus:ring-pink-500"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-3 outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           v-model="urlTitle"
           type="text"
           placeholder="Title (optional)"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 outline-none focus:ring-2 focus:ring-pink-500"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 outline-none focus:ring-2 focus:ring-blue-500"
         />
         <div class="flex justify-end gap-3">
           <button @click="showUrlModal = false" class="px-4 py-2 text-gray-500 hover:text-gray-700 text-sm">Cancel</button>
-          <button @click="handleUrlAdd" class="px-4 py-2 bg-pink-600 text-white rounded-lg text-sm hover:bg-pink-700">Add</button>
+          <button @click="handleUrlAdd" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">Add</button>
         </div>
       </div>
     </div>
@@ -107,7 +107,7 @@ const bid = businessStore.currentBusiness?.id
 function statusClass(status) {
   const map = {
     ready: 'bg-green-100 text-green-700',
-    processing: 'bg-pink-100 text-pink-700',
+    processing: 'bg-blue-100 text-blue-700',
     pending: 'bg-yellow-100 text-yellow-700',
     failed: 'bg-red-100 text-red-700',
   }
