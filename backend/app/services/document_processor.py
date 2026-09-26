@@ -13,12 +13,21 @@ logger = logging.getLogger(__name__)
 
 
 def extract_text_from_pdf(file_path: str) -> str:
-    from pypdf import PdfReader
-    reader = PdfReader(file_path)
-    text = ""
-    for page in reader.pages:
-        text += page.extract_text() or ""
-    return text
+    import fitz
+    import pytesseract
+    from PIL import Image
+
+    pages_text = []
+    with fitz.open(file_path) as pdf:
+        for page in pdf:
+            page_text = page.get_text("text").strip()
+            if not page_text:
+                pixmap = page.get_pixmap(matrix=fitz.Matrix(2, 2), alpha=False)
+                image = Image.frombytes("RGB", (pixmap.width, pixmap.height), pixmap.samples)
+                page_text = pytesseract.image_to_string(image).strip()
+            pages_text.append(page_text)
+
+    return "\n".join(text for text in pages_text if text)
 
 
 def extract_text_from_docx(file_path: str) -> str:
@@ -89,6 +98,11 @@ def process_document_task(document_id: str):
             raise ValueError(f"Unsupported file type: {doc.file_type}")
 
         chunks = chunk_text(text)
+        if not chunks:
+            raise ValueError(
+                "No readable text was found. The file may be blank, password-protected, "
+                "or contain a scan that OCR could not read."
+            )
 
         from app.services.embedding_service import EmbeddingService
         embedding_svc = EmbeddingService()

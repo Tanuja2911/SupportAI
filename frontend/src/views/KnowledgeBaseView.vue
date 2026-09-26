@@ -35,7 +35,12 @@
         </thead>
         <tbody class="divide-y divide-gray-100">
           <tr v-for="doc in documents" :key="doc.id" class="hover:bg-gray-50">
-            <td class="px-6 py-4 text-sm font-medium text-gray-800">{{ doc.title }}</td>
+            <td class="px-6 py-4 text-sm font-medium text-gray-800">
+              {{ doc.title }}
+              <p v-if="doc.status === 'failed' && doc.error_message" class="mt-1 text-xs font-normal text-red-600">
+                {{ doc.error_message }}
+              </p>
+            </td>
             <td class="px-6 py-4 text-sm text-gray-500 uppercase">{{ doc.file_type }}</td>
             <td class="px-6 py-4">
               <span
