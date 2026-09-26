@@ -220,6 +220,32 @@ Visit **`http://localhost:5173`** to register an account, set up your organizati
 
 ## Production Deployment
 
+### AWS EC2 with Docker Compose
+
+This is the simplest AWS deployment for the current architecture. The API and Celery worker share persistent upload and FAISS volumes, so keep them on the same EC2 Compose host unless you first move those files to shared/object storage.
+
+1. Launch an Ubuntu EC2 instance with enough memory for the embedding model (at least 4 GiB is a practical starting point). Install Docker Engine and the Docker Compose plugin.
+2. Point your domain's DNS A record to the instance's public IP. In the EC2 security group, allow inbound TCP 80 and 443 from the internet and SSH (TCP 22) only from your IP. Do not expose PostgreSQL or Redis ports.
+3. Clone this repository on the instance and configure the deployment:
+   ```bash
+   cp .env.aws.example .env.aws
+   # Edit .env.aws: set DOMAIN, CORS_ORIGINS, POSTGRES_PASSWORD, SECRET_KEY,
+   # and any LLM provider key you use.
+   ```
+   Use a long random `SECRET_KEY` (for example, `openssl rand -hex 32`) and keep `POSTGRES_PASSWORD` to URL-safe characters such as letters, numbers, hyphens, and underscores. Add the dashboard origin and any customer site origins that will embed the widget to `CORS_ORIGINS`, separated by commas.
+4. Start the stack:
+   ```bash
+   docker compose --env-file .env.aws -f docker-compose.aws.yml up -d --build
+   ```
+   The backend container runs Alembic migrations on startup. Caddy obtains and renews HTTPS certificates after DNS points at the instance and ports 80/443 are reachable.
+5. Check service status and logs:
+   ```bash
+   docker compose --env-file .env.aws -f docker-compose.aws.yml ps
+   docker compose --env-file .env.aws -f docker-compose.aws.yml logs -f backend celery caddy
+   ```
+
+The AWS Compose stack persists PostgreSQL, Redis, uploaded files, FAISS indexes, and Caddy certificates in Docker volumes. Back up the database and file/index volumes before upgrades or instance replacement. The example is a single-instance deployment; for higher availability, move PostgreSQL to RDS, Redis to ElastiCache, uploads to S3, and replace local FAISS files with shared or managed vector storage before scaling the API and worker independently.
+
 ### 1. Single Server Deployment (Docker Compose + Nginx)
 
 For deploying on a VPS (AWS EC2, DigitalOcean, Linode, Hetzner):
@@ -247,7 +273,7 @@ For deploying on a VPS (AWS EC2, DigitalOcean, Linode, Hetzner):
 ### 2. Cloud PaaS Deployment (Render / Railway / Fly.io)
 
 - **Database & Cache**: Provision managed PostgreSQL and Redis instances.
-- **Backend Service**: Deploy `backend/` using `backend/Dockerfile` with startup command `uvicorn app.main:app --host 0.0.0.0 --port 8000`.
+- **Backend Service**: Build from the repository root using `backend/Dockerfile` with startup command `uvicorn app.main:app --host 0.0.0.0 --port 8000`.
 - **Celery Worker**: Deploy `backend/` as a Background Worker service using `backend/Dockerfile` with command `celery -A app.services.document_processor.celery_app worker --loglevel=info`.
 - **Frontend App**: Deploy `frontend/` as a Static Site (Build command: `npm run build`, Publish directory: `dist`).
 

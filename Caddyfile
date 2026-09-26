@@ -1,0 +1,8 @@
+{$DOMAIN} {
+	encode zstd gzip
+
+	@backend path /api/* /widget/*
+	reverse_proxy @backend backend:8000
+
+	reverse_proxy frontend:5173
+}

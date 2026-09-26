@@ -18,7 +18,9 @@ services:
       - "6379:6379"
 
   backend:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     ports:
       - "8000:8000"
     environment:
@@ -32,12 +34,15 @@ services:
       - redis
     volumes:
       - ./backend:/app
+      - ./widget:/app/widget:ro
       - upload_data:/app/uploads
       - index_data:/app/vector_indices
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
   celery:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     environment:
       DATABASE_URL: postgresql://supportiq:supportiq@db:5432/supportiq
       REDIS_URL: redis://redis:6379/0
@@ -47,6 +52,7 @@ services:
       - redis
     volumes:
       - ./backend:/app
+      - ./widget:/app/widget:ro
       - upload_data:/app/uploads
       - index_data:/app/vector_indices
     command: celery -A app.services.document_processor.celery_app worker --loglevel=info
