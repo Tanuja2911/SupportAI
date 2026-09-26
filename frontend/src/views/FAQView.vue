@@ -9,13 +9,13 @@
         <button
           @click="autoGenerate"
           :disabled="generating"
-          class="px-4 py-2 border border-indigo-600 text-indigo-600 rounded-lg text-sm font-medium hover:bg-indigo-50 transition disabled:opacity-50"
+          class="px-4 py-2 border border-pink-600 text-pink-600 rounded-lg text-sm font-medium hover:bg-pink-50 transition disabled:opacity-50"
         >
           {{ generating ? 'Generating...' : 'Auto-Generate FAQs' }}
         </button>
         <button
           @click="showModal = true"
-          class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition"
+          class="px-4 py-2 bg-pink-600 text-white rounded-lg text-sm font-medium hover:bg-pink-700 transition"
         >
           Add FAQ
         </button>
@@ -23,22 +23,22 @@
     </div>
 
     <!-- Auto-Generated Suggestions -->
-    <div v-if="suggestions.length" class="mb-6 bg-indigo-50 border border-indigo-200 rounded-xl p-5">
+    <div v-if="suggestions.length" class="mb-6 bg-pink-50 border border-pink-200 rounded-xl p-5">
       <div class="flex items-center justify-between mb-4">
         <div>
-          <h3 class="font-semibold text-indigo-800">AI-Generated Suggestions</h3>
-          <p class="text-xs text-indigo-500 mt-1">Review and accept the ones you want to add as FAQ overrides</p>
+          <h3 class="font-semibold text-pink-800">AI-Generated Suggestions</h3>
+          <p class="text-xs text-pink-500 mt-1">Review and accept the ones you want to add as FAQ overrides</p>
         </div>
         <div class="flex gap-2">
           <button
             @click="acceptAll"
-            class="px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-medium hover:bg-indigo-700 transition"
+            class="px-3 py-1.5 bg-pink-600 text-white rounded-lg text-xs font-medium hover:bg-pink-700 transition"
           >
             Accept All ({{ suggestions.length }})
           </button>
           <button
             @click="suggestions = []"
-            class="px-3 py-1.5 text-indigo-600 border border-indigo-300 rounded-lg text-xs font-medium hover:bg-indigo-100 transition"
+            class="px-3 py-1.5 text-pink-600 border border-pink-300 rounded-lg text-xs font-medium hover:bg-pink-100 transition"
           >
             Dismiss
           </button>
@@ -48,7 +48,7 @@
         <div
           v-for="(s, i) in suggestions"
           :key="i"
-          class="bg-white rounded-lg border border-indigo-100 p-4"
+          class="bg-white rounded-lg border border-pink-100 p-4"
         >
           <div class="flex items-start justify-between gap-4">
             <div class="flex-1">
@@ -102,17 +102,17 @@
         <input
           v-model="newQuestion"
           placeholder="Customer question..."
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-3 outline-none focus:ring-2 focus:ring-indigo-500"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-3 outline-none focus:ring-2 focus:ring-pink-500"
         />
         <textarea
           v-model="newAnswer"
           rows="4"
           placeholder="Your exact answer..."
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 outline-none focus:ring-2 focus:ring-pink-500 resize-none"
         ></textarea>
         <div class="flex justify-end gap-3">
           <button @click="showModal = false" class="px-4 py-2 text-gray-500 text-sm">Cancel</button>
-          <button @click="addFaq" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700">Add</button>
+          <button @click="addFaq" class="px-4 py-2 bg-pink-600 text-white rounded-lg text-sm hover:bg-pink-700">Add</button>
         </div>
       </div>
     </div>

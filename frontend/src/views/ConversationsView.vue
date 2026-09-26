@@ -8,7 +8,7 @@
         :key="f.value"
         @click="activeFilter = f.value"
         class="px-3 py-1.5 rounded-lg text-sm font-medium transition"
-        :class="activeFilter === f.value ? 'bg-indigo-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'"
+        :class="activeFilter === f.value ? 'bg-pink-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-pink-50'"
       >
         {{ f.label }}
       </button>
@@ -19,7 +19,7 @@
         v-for="conv in conversations"
         :key="conv.id"
         :to="`/app/conversations/${conv.id}`"
-        class="flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition block"
+        class="flex items-center justify-between px-6 py-4 hover:bg-pink-50 transition block"
       >
         <div>
           <p class="font-medium text-gray-800">{{ conv.customer_name || 'Anonymous' }}</p>
@@ -63,7 +63,7 @@ function statusClass(status) {
   const map = {
     active: 'bg-green-100 text-green-700',
     escalated: 'bg-red-100 text-red-700',
-    resolved: 'bg-blue-100 text-blue-700',
+    resolved: 'bg-emerald-100 text-emerald-700',
     closed: 'bg-gray-100 text-gray-700',
   }
   return map[status] || 'bg-gray-100 text-gray-700'

@@ -1,80 +1,89 @@
 <template>
-  <div class="flex h-screen bg-gray-50">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
-      <div class="p-6">
-        <h1 class="text-xl font-bold text-indigo-600">SupportAI</h1>
-        <p class="text-xs text-gray-400 mt-1">{{ businessStore.currentBusiness?.name }}</p>
+  <div class="min-h-screen bg-pink-50 text-stone-900">
+    <div v-if="mobileNavOpen" class="fixed inset-0 z-40 bg-stone-950/40 backdrop-blur-[2px] lg:hidden" @click="mobileNavOpen = false"></div>
+
+    <aside class="fixed inset-y-0 left-0 z-50 flex w-[17rem] flex-col border-r border-stone-200 bg-white transition-transform duration-200 lg:translate-x-0" :class="mobileNavOpen ? 'translate-x-0' : '-translate-x-full'">
+      <div class="flex h-[4.5rem] items-center justify-between border-b border-stone-100 px-5">
+        <router-link to="/app" class="flex items-center gap-3" @click="mobileNavOpen = false">
+          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-pink-600 text-white shadow-sm shadow-pink-200">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.5a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 8.5v7A2.25 2.25 0 0 0 6 17.75h2.25L12 21l3.75-3.25H18a2.25 2.25 0 0 0 2.25-2.25v-7Z"/><path stroke-linecap="round" d="M8 10h8M8 13.5h5"/></svg>
+          </span>
+          <span class="text-lg font-bold tracking-tight text-stone-900">Support<span class="text-pink-600">AI</span></span>
+        </router-link>
+        <button @click="mobileNavOpen = false" class="rounded-lg p-2 text-stone-400 hover:bg-stone-100 lg:hidden" aria-label="Close navigation">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
       </div>
 
-      <nav class="flex-1 px-4 space-y-1">
-        <router-link
-          v-for="item in navItems"
-          :key="item.path"
-          :to="item.path"
-          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition"
-          :class="$route.path === item.path ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100'"
-        >
-          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path v-if="item.icon === 'grid'" stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
-            <path v-if="item.icon === 'book'" stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-            <path v-if="item.icon === 'chat'" stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
-            <path v-if="item.icon === 'alert'" stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-            <path v-if="item.icon === 'lightbulb'" stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
-            <path v-if="item.icon === 'help'" stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-            <path v-if="item.icon === 'settings'" stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.248a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
-            <path v-if="item.icon === 'settings'" stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-            <path v-if="item.icon === 'users'" stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
-            <path v-if="item.icon === 'sparkle'" stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
-            <path v-if="item.icon === 'terminal'" stroke-linecap="round" stroke-linejoin="round" d="m6.75 7.5 3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0 0 21 18V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v12a2.25 2.25 0 0 0 2.25 2.25Z" />
-          </svg>
-          {{ item.label }}
-          <span
-            v-if="item.badge"
-            class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full"
-          >
-            {{ item.badge }}
+      <div class="border-b border-stone-100 px-4 py-4">
+        <p class="px-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-stone-400">Workspace</p>
+        <div class="mt-2 flex items-center gap-3 rounded-xl border border-stone-200 bg-pink-50 px-3 py-2.5">
+          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-sm font-bold text-pink-600 shadow-sm ring-1 ring-stone-200">{{ businessStore.currentBusiness?.name?.charAt(0)?.toUpperCase() || 'S' }}</span>
+          <div class="min-w-0 flex-1"><p class="truncate text-sm font-semibold text-stone-800">{{ businessStore.currentBusiness?.name || 'My workspace' }}</p><p class="mt-0.5 text-xs text-stone-500">Support workspace</p></div>
+          <svg class="h-4 w-4 shrink-0 text-stone-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m7 10 5 5 5-5"/></svg>
+        </div>
+      </div>
+
+      <nav class="flex-1 space-y-1 overflow-y-auto px-3 py-4" aria-label="Main navigation">
+        <p class="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-stone-400">Manage</p>
+        <router-link v-for="item in navItems" :key="item.path" :to="item.path" @click="mobileNavOpen = false" class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-medium transition" :class="isActive(item) ? 'bg-pink-50 text-pink-700' : 'text-stone-600 hover:bg-pink-50 hover:text-stone-900'">
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg transition" :class="isActive(item) ? 'bg-white text-pink-600 shadow-sm' : 'text-stone-400 group-hover:text-stone-700'">
+            <svg class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="1.65" viewBox="0 0 24 24" aria-hidden="true">
+              <path v-if="item.icon === 'grid'" stroke-linecap="round" stroke-linejoin="round" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>
+              <path v-else-if="item.icon === 'book'" stroke-linecap="round" stroke-linejoin="round" d="M12 7c-2.5-2-5-2.4-8-1.5v13c3-.9 5.5-.5 8 1.5m0-13c2.5-2 5-2.4 8-1.5v13c-3-.9-5.5-.5-8 1.5m0-13v13"/>
+              <path v-else-if="item.icon === 'chat'" stroke-linecap="round" stroke-linejoin="round" d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2v-9.5A7.5 7.5 0 0 1 10.5 4H12a8 8 0 0 1 8 7.5Z"/><path v-if="item.icon === 'chat'" stroke-linecap="round" d="M8 10h7M8 13h5"/>
+              <path v-else-if="item.icon === 'alert'" stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 4h.01M10.3 4.5 2.9 17.3A1.8 1.8 0 0 0 4.5 20h15a1.8 1.8 0 0 0 1.6-2.7L13.7 4.5a2 2 0 0 0-3.4 0Z"/>
+              <path v-else-if="item.icon === 'lightbulb'" stroke-linecap="round" stroke-linejoin="round" d="M9 18h6m-5 3h4m-4-6.5a6 6 0 1 1 4 0c-.7.5-1 1.2-1 2h-2c0-.8-.3-1.5-1-2Z"/>
+              <path v-else-if="item.icon === 'help'" stroke-linecap="round" stroke-linejoin="round" d="M9.5 9a2.6 2.6 0 1 1 4.2 2.1c-1 .7-1.7 1.1-1.7 2.4m0 3h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+              <path v-else-if="item.icon === 'settings'" stroke-linecap="round" stroke-linejoin="round" d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm0-5 1 .2.8 2.2 1.6.9 2.3-.4 1.3 1.7-.8 2.2.1 1.8 1.6 1.7-.8 2-2.4.2-1.5 1.1-.8 2.2-2.1.4-1.5-1.8-1.7-.5-2.2.8-1.7-1.4.3-2.3-.7-1.6-2-1.3.2-2.1 2.1-.9 1-1.4-.1-2.4 1.8-1.1 2.1 1.1 1.7-.1L12 3.5Z"/>
+              <path v-else-if="item.icon === 'users'" stroke-linecap="round" stroke-linejoin="round" d="M16 20v-1.5a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4V20m6-9a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm6-5a3 3 0 0 1 0 6m2 3h1a3 3 0 0 1 3 3v2"/>
+              <path v-else stroke-linecap="round" stroke-linejoin="round" d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5Zm4 4 3 3-3 3m5 0h3"/>
+            </svg>
           </span>
+          <span class="flex-1">{{ item.label }}</span>
+          <span v-if="item.badge" class="rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-bold text-rose-700">{{ item.badge }}</span>
+          <span v-if="isActive(item)" class="h-1.5 w-1.5 rounded-full bg-pink-500"></span>
         </router-link>
       </nav>
 
-      <div class="p-4 border-t border-gray-200">
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-medium text-sm">
-            {{ auth.user?.full_name?.charAt(0) || '?' }}
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm font-medium text-gray-700 truncate">{{ auth.user?.full_name }}</p>
-            <p class="text-xs text-gray-400 truncate">{{ auth.user?.email }}</p>
-          </div>
+      <div class="border-t border-stone-100 p-3">
+        <div class="flex items-center gap-3 rounded-xl px-2 py-2">
+          <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-pink-100 to-pink-100 text-sm font-bold text-pink-700">{{ auth.user?.full_name?.charAt(0)?.toUpperCase() || '?' }}</div>
+          <div class="min-w-0 flex-1"><p class="truncate text-sm font-semibold text-stone-800">{{ auth.user?.full_name || 'Account' }}</p><p class="truncate text-xs text-stone-500">{{ auth.user?.email }}</p></div>
         </div>
-        <button
-          @click="handleLogout"
-          class="mt-3 w-full text-sm text-gray-500 hover:text-red-600 transition text-left"
-        >
-          Sign out
-        </button>
+        <button @click="handleLogout" class="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-stone-500 transition hover:bg-rose-50 hover:text-rose-700"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10 17l5-5-5-5m5 5H3m9-9h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg>Sign out</button>
       </div>
     </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 overflow-auto">
-      <router-view />
-    </main>
+    <div class="min-h-screen lg:pl-[17rem]">
+      <header class="sticky top-0 z-30 flex h-[4.5rem] items-center justify-between border-b border-stone-200/80 bg-white/90 px-4 backdrop-blur-md sm:px-6 lg:px-8">
+        <div class="flex min-w-0 items-center gap-3">
+          <button @click="mobileNavOpen = true" class="flex h-9 w-9 items-center justify-center rounded-xl border border-stone-200 text-stone-600 transition hover:bg-pink-50 lg:hidden" aria-label="Open navigation"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+          <div class="min-w-0"><p class="truncate text-sm font-semibold text-stone-800">{{ currentSection }}</p><p class="hidden text-xs text-stone-500 sm:block">Manage your AI customer support</p></div>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="hidden items-center gap-2 rounded-full border border-stone-200 bg-white px-3 py-1.5 text-xs font-medium text-stone-600 sm:inline-flex"><span class="h-2 w-2 rounded-full bg-emerald-500"></span>Workspace active</span>
+          <div class="flex h-9 w-9 items-center justify-center rounded-full bg-pink-50 text-sm font-bold text-pink-700 ring-1 ring-pink-100">{{ auth.user?.full_name?.charAt(0)?.toUpperCase() || '?' }}</div>
+        </div>
+      </header>
+      <main class="min-h-[calc(100vh-4.5rem)]"><router-view /></main>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '../stores/auth.js'
 import { useBusinessStore } from '../stores/business.js'
 
 const router = useRouter()
+const route = useRoute()
 const auth = useAuthStore()
 const businessStore = useBusinessStore()
+const mobileNavOpen = ref(false)
 
-const navItems = ref([
+const navItems = [
   { path: '/app', label: 'Dashboard', icon: 'grid' },
   { path: '/app/knowledge', label: 'Knowledge Base', icon: 'book' },
   { path: '/app/conversations', label: 'Conversations', icon: 'chat' },
@@ -85,7 +94,18 @@ const navItems = ref([
   { path: '/app/ai-settings', label: 'AI Settings', icon: 'sparkle' },
   { path: '/app/team', label: 'Team', icon: 'users' },
   { path: '/app/sandbox', label: 'Test Chat', icon: 'terminal' },
-])
+]
+
+const currentSection = computed(() => {
+  return navItems.find((item) => isActive(item))?.label || 'Workspace'
+})
+
+function isActive(item) {
+  if (item.path === '/app') return route.path === '/app'
+  return route.path === item.path || route.path.startsWith(`${item.path}/`)
+}
+
+watch(() => route.fullPath, () => { mobileNavOpen.value = false })
 
 function handleLogout() {
   auth.logout()

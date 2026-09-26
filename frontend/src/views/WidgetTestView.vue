@@ -1,8 +1,8 @@
 <template>
-  <main class="min-h-screen bg-slate-50 px-6 py-12 text-slate-800">
-    <section class="mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+  <main class="min-h-screen bg-pink-50 px-6 py-12 text-stone-800">
+    <section class="mx-auto max-w-2xl rounded-2xl border border-stone-200 bg-white p-8 shadow-sm">
       <h1 class="text-2xl font-bold">Test your SupportAI chat widget</h1>
-      <p class="mt-3 text-slate-600">
+      <p class="mt-3 text-stone-600">
         Paste your business API key from the SupportAI Dashboard, select Start test, then use the chat button at the bottom of the page.
       </p>
       <label for="api-key" class="mt-6 block text-sm font-semibold">Business API key</label>
@@ -12,17 +12,17 @@
         type="password"
         autocomplete="off"
         placeholder="Paste your API key"
-        class="mt-2 w-full rounded-lg border border-slate-300 px-3 py-2"
+        class="mt-2 w-full rounded-lg border border-stone-300 px-3 py-2"
       />
       <button
         type="button"
         :disabled="loading"
-        class="mt-3 rounded-lg bg-indigo-600 px-5 py-3 font-semibold text-white disabled:opacity-60"
+        class="mt-3 rounded-lg bg-pink-600 px-5 py-3 font-semibold text-white disabled:opacity-60"
         @click="startTest"
       >
         {{ loading ? 'Loading…' : 'Start test' }}
       </button>
-      <p class="mt-4 min-h-6 text-sm text-slate-600" role="status">{{ status }}</p>
+      <p class="mt-4 min-h-6 text-sm text-stone-600" role="status">{{ status }}</p>
     </section>
   </main>
 </template>

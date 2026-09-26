@@ -1,53 +1,53 @@
 <template>
-  <div class="min-h-full bg-slate-50 px-4 py-6 sm:px-6 lg:px-10 lg:py-9">
+  <div class="min-h-full bg-pink-50 px-4 py-6 sm:px-6 lg:px-10 lg:py-9">
     <div class="mx-auto max-w-7xl space-y-7">
       <header class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p class="text-sm font-semibold uppercase tracking-[0.16em] text-indigo-600">SupportAI workspace</p>
-          <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">Dashboard</h2>
-          <p class="mt-1 text-sm text-slate-500">See how your support assistant is doing and manage its setup.</p>
+          <p class="text-sm font-semibold uppercase tracking-[0.16em] text-pink-600">SupportAI workspace</p>
+          <h2 class="mt-2 text-3xl font-bold tracking-tight text-stone-900">Dashboard</h2>
+          <p class="mt-1 text-sm text-stone-500">See how your support assistant is doing and manage its setup.</p>
         </div>
-        <router-link to="/app/sandbox" class="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+        <router-link to="/app/sandbox" class="inline-flex items-center justify-center gap-2 rounded-xl bg-pink-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
           <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8M8 14h5m-8 6 3.5-3H18a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v14Z"/></svg>
           Test your assistant
         </router-link>
       </header>
 
       <div v-if="loading" class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4" aria-label="Loading dashboard" aria-live="polite">
-        <div v-for="n in 8" :key="n" class="h-28 animate-pulse rounded-2xl border border-slate-200 bg-white"></div>
+        <div v-for="n in 8" :key="n" class="h-28 animate-pulse rounded-2xl border border-stone-200 bg-white"></div>
       </div>
 
       <div v-else class="space-y-7">
-        <section v-if="showGuide" class="overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-sm">
-          <div class="flex flex-col gap-3 border-b border-indigo-100 bg-gradient-to-r from-indigo-50 via-white to-violet-50 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <section v-if="showGuide" class="overflow-hidden rounded-2xl border border-pink-100 bg-white shadow-sm">
+          <div class="flex flex-col gap-3 border-b border-pink-100 bg-gradient-to-r from-pink-50 via-white to-rose-50 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
             <div>
-              <p class="text-xs font-semibold uppercase tracking-[0.14em] text-indigo-600">Quick setup</p>
-              <h3 class="mt-1 text-lg font-bold text-slate-900">Get your assistant ready</h3>
+              <p class="text-xs font-semibold uppercase tracking-[0.14em] text-pink-600">Quick setup</p>
+              <h3 class="mt-1 text-lg font-bold text-stone-900">Get your assistant ready</h3>
             </div>
-            <button @click="dismissGuide" class="self-start rounded-lg px-3 py-2 text-sm font-medium text-slate-500 transition hover:bg-white hover:text-slate-800 sm:self-auto">Dismiss</button>
+            <button @click="dismissGuide" class="self-start rounded-lg px-3 py-2 text-sm font-medium text-stone-500 transition hover:bg-white hover:text-stone-800 sm:self-auto">Dismiss</button>
           </div>
-          <div class="grid grid-cols-1 gap-px bg-slate-100 sm:grid-cols-2 xl:grid-cols-4">
+          <div class="grid grid-cols-1 gap-px bg-stone-100 sm:grid-cols-2 xl:grid-cols-4">
             <div v-for="step in guideSteps" :key="step.number" class="bg-white p-5">
               <div class="flex items-center gap-3">
-                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-sm font-bold text-indigo-700">{{ step.number }}</span>
-                <h4 class="text-sm font-semibold text-slate-900">{{ step.title }}</h4>
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-pink-50 text-sm font-bold text-pink-700">{{ step.number }}</span>
+                <h4 class="text-sm font-semibold text-stone-900">{{ step.title }}</h4>
               </div>
-              <p class="mt-3 text-sm leading-6 text-slate-500">{{ step.before }}<router-link :to="step.to" class="font-medium text-indigo-600 hover:text-indigo-800">{{ step.link }}</router-link>{{ step.after }}</p>
+              <p class="mt-3 text-sm leading-6 text-stone-500">{{ step.before }}<router-link :to="step.to" class="font-medium text-pink-600 hover:text-pink-800">{{ step.link }}</router-link>{{ step.after }}</p>
             </div>
           </div>
         </section>
 
         <section aria-label="Support activity">
           <div class="mb-3 flex items-center justify-between">
-            <h3 class="text-sm font-semibold text-slate-800">Support activity</h3>
+            <h3 class="text-sm font-semibold text-stone-800">Support activity</h3>
             <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>Live overview</span>
           </div>
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <article v-for="stat in stats" :key="stat.label" class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <article v-for="stat in stats" :key="stat.label" class="group relative overflow-hidden rounded-2xl border border-stone-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
               <div class="flex items-start justify-between gap-3">
                 <div>
-                  <p class="text-sm font-medium text-slate-500">{{ stat.label }}</p>
-                  <p class="mt-3 text-3xl font-bold tracking-tight text-slate-900">{{ stat.value }}</p>
+                  <p class="text-sm font-medium text-stone-500">{{ stat.label }}</p>
+                  <p class="mt-3 text-3xl font-bold tracking-tight text-stone-900">{{ stat.value }}</p>
                 </div>
                 <span class="flex h-10 w-10 items-center justify-center rounded-xl" :class="stat.iconBg">
                   <svg class="h-5 w-5" :class="stat.iconColor" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24" aria-hidden="true">
@@ -68,39 +68,39 @@
         </section>
 
         <section class="grid grid-cols-1 gap-5 xl:grid-cols-5">
-          <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 xl:col-span-2">
+          <article class="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-6 xl:col-span-2">
             <div class="flex items-start justify-between gap-4">
               <div>
-                <p class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">Business connection</p>
-                <h3 class="mt-1 text-lg font-bold text-slate-900">Your API key</h3>
+                <p class="text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">Business connection</p>
+                <h3 class="mt-1 text-lg font-bold text-stone-900">Your API key</h3>
               </div>
-              <span class="rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-700">Widget ID</span>
+              <span class="rounded-full bg-pink-50 px-2.5 py-1 text-xs font-semibold text-pink-700">Widget ID</span>
             </div>
-            <p class="mt-2 text-sm leading-6 text-slate-500">Identifies which business your website’s SupportAI widget connects to.</p>
-            <div class="mt-4 flex min-w-0 items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 p-2">
-              <code class="min-w-0 flex-1 truncate px-2 text-xs text-slate-600 sm:text-sm">{{ showKey ? businessStore.currentBusiness?.api_key : '••••••••••••••••••••••••••••••••' }}</code>
-              <button @click="showKey = !showKey" class="rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-600 transition hover:bg-white hover:text-indigo-700">{{ showKey ? 'Hide' : 'Show' }}</button>
-              <button @click="copyKey" class="rounded-lg bg-white px-3 py-2 text-xs font-semibold text-indigo-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-indigo-50">{{ copiedKey ? 'Copied' : 'Copy' }}</button>
+            <p class="mt-2 text-sm leading-6 text-stone-500">Identifies which business your website’s SupportAI widget connects to.</p>
+            <div class="mt-4 flex min-w-0 items-center gap-2 rounded-xl border border-stone-200 bg-pink-50 p-2">
+              <code class="min-w-0 flex-1 truncate px-2 text-xs text-stone-600 sm:text-sm">{{ showKey ? businessStore.currentBusiness?.api_key : '••••••••••••••••••••••••••••••••' }}</code>
+              <button @click="showKey = !showKey" class="rounded-lg px-2.5 py-2 text-xs font-semibold text-stone-600 transition hover:bg-white hover:text-pink-700">{{ showKey ? 'Hide' : 'Show' }}</button>
+              <button @click="copyKey" class="rounded-lg bg-white px-3 py-2 text-xs font-semibold text-pink-700 shadow-sm ring-1 ring-stone-200 transition hover:bg-pink-50">{{ copiedKey ? 'Copied' : 'Copy' }}</button>
             </div>
           </article>
 
-          <article class="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6 xl:col-span-3">
+          <article class="min-w-0 rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-6 xl:col-span-3">
             <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <p class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">Installation</p>
-                <h3 class="mt-1 text-lg font-bold text-slate-900">Add the chat widget to your website</h3>
+                <p class="text-xs font-semibold uppercase tracking-[0.14em] text-stone-400">Installation</p>
+                <h3 class="mt-1 text-lg font-bold text-stone-900">Add the chat widget to your website</h3>
               </div>
-              <button @click="copyEmbedCode" class="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100">
+              <button @click="copyEmbedCode" class="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-pink-200 bg-pink-50 px-3.5 py-2.5 text-sm font-semibold text-pink-700 transition hover:bg-pink-100">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>
                 {{ copiedEmbed ? 'Copied!' : 'Copy embed code' }}
               </button>
             </div>
-            <ol class="mt-4 grid grid-cols-1 gap-2 text-sm text-slate-600 sm:grid-cols-3">
-              <li class="flex gap-2"><span class="font-bold text-indigo-600">1.</span><span>Copy the code below.</span></li>
-              <li class="flex gap-2"><span class="font-bold text-indigo-600">2.</span><span>Paste before <code class="rounded bg-slate-100 px-1 py-0.5 text-xs">&lt;/body&gt;</code> or into your site builder’s custom code area.</span></li>
-              <li class="flex gap-2"><span class="font-bold text-indigo-600">3.</span><span>Publish your site and try the chat bubble.</span></li>
+            <ol class="mt-4 grid grid-cols-1 gap-2 text-sm text-stone-600 sm:grid-cols-3">
+              <li class="flex gap-2"><span class="font-bold text-pink-600">1.</span><span>Copy the code below.</span></li>
+              <li class="flex gap-2"><span class="font-bold text-pink-600">2.</span><span>Paste before <code class="rounded bg-stone-100 px-1 py-0.5 text-xs">&lt;/body&gt;</code> or into your site builder’s custom code area.</span></li>
+              <li class="flex gap-2"><span class="font-bold text-pink-600">3.</span><span>Publish your site and try the chat bubble.</span></li>
             </ol>
-            <pre class="mt-4 max-h-44 overflow-auto rounded-xl bg-slate-950 p-4 text-xs leading-6 text-emerald-300"><code>{{ embedCode }}</code></pre>
+            <pre class="mt-4 max-h-44 overflow-auto rounded-xl bg-stone-950 p-4 text-xs leading-6 text-pink-300"><code>{{ embedCode }}</code></pre>
           </article>
         </section>
       </div>
@@ -139,12 +139,12 @@ const stats = computed(() => {
   if (!dashboard.value) return []
   const d = dashboard.value
   return [
-    { label: 'Total conversations', value: d.total_conversations, icon: 'chat', iconBg: 'bg-indigo-50', iconColor: 'text-indigo-600', accent: 'bg-indigo-500' },
+    { label: 'Total conversations', value: d.total_conversations, icon: 'chat', iconBg: 'bg-pink-50', iconColor: 'text-pink-600', accent: 'bg-pink-500' },
     { label: 'Active conversations', value: d.active_conversations, icon: 'sparkle', iconBg: 'bg-emerald-50', iconColor: 'text-emerald-600', accent: 'bg-emerald-500' },
     { label: 'Escalated', value: d.escalated_conversations, icon: 'alert', iconBg: 'bg-rose-50', iconColor: 'text-rose-600', accent: 'bg-rose-500' },
-    { label: 'Average confidence', value: (d.avg_confidence * 100).toFixed(1) + '%', icon: 'confidence', iconBg: 'bg-violet-50', iconColor: 'text-violet-600', accent: 'bg-violet-500' },
-    { label: 'Total messages', value: d.total_messages, icon: 'message', iconBg: 'bg-sky-50', iconColor: 'text-sky-600', accent: 'bg-sky-500' },
-    { label: 'AI responses', value: d.ai_messages, icon: 'sparkle', iconBg: 'bg-blue-50', iconColor: 'text-blue-600', accent: 'bg-blue-500' },
+    { label: 'Average confidence', value: (d.avg_confidence * 100).toFixed(1) + '%', icon: 'confidence', iconBg: 'bg-rose-50', iconColor: 'text-rose-600', accent: 'bg-rose-500' },
+    { label: 'Total messages', value: d.total_messages, icon: 'message', iconBg: 'bg-amber-50', iconColor: 'text-amber-600', accent: 'bg-amber-500' },
+    { label: 'AI responses', value: d.ai_messages, icon: 'sparkle', iconBg: 'bg-pink-50', iconColor: 'text-pink-600', accent: 'bg-pink-500' },
     { label: 'Knowledge documents', value: d.total_documents, icon: 'document', iconBg: 'bg-amber-50', iconColor: 'text-amber-600', accent: 'bg-amber-500' },
     { label: 'Ready documents', value: d.ready_documents, icon: 'ready', iconBg: 'bg-teal-50', iconColor: 'text-teal-600', accent: 'bg-teal-500' },
   ]

@@ -13,9 +13,9 @@
             :key="p.value"
             @click="provider = p.value"
             class="p-4 rounded-lg border-2 text-center transition"
-            :class="provider === p.value ? 'border-indigo-600 bg-indigo-50' : 'border-gray-200 hover:border-gray-300'"
+            :class="provider === p.value ? 'border-pink-600 bg-pink-50' : 'border-gray-200 hover:border-gray-300'"
           >
-            <p class="font-semibold text-sm" :class="provider === p.value ? 'text-indigo-700' : 'text-gray-800'">{{ p.name }}</p>
+            <p class="font-semibold text-sm" :class="provider === p.value ? 'text-pink-700' : 'text-gray-800'">{{ p.name }}</p>
             <p class="text-xs text-gray-400 mt-1">{{ p.model }}</p>
           </button>
         </div>
@@ -29,9 +29,9 @@
             v-model="apiKey"
             :type="showKey ? 'text' : 'password'"
             :placeholder="keyPlaceholder"
-            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-indigo-500"
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-pink-500"
           />
-          <button @click="showKey = !showKey" class="px-3 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50">
+          <button @click="showKey = !showKey" class="px-3 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg hover:bg-pink-50">
             {{ showKey ? 'Hide' : 'Show' }}
           </button>
         </div>
@@ -39,7 +39,7 @@
       </div>
 
       <!-- Status -->
-      <div v-if="currentProvider" class="bg-gray-50 rounded-lg p-4">
+      <div v-if="currentProvider" class="bg-pink-50 rounded-lg p-4">
         <p class="text-sm text-gray-600">
           Current: <span class="font-medium text-gray-800">{{ currentProviderName }}</span>
           <span v-if="hasKey" class="ml-2 text-green-600 text-xs font-medium">Key configured</span>
@@ -52,7 +52,7 @@
         <button
           @click="save"
           :disabled="saving || !apiKey.trim()"
-          class="px-6 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition disabled:opacity-50"
+          class="px-6 py-2 bg-pink-600 text-white text-sm font-medium rounded-lg hover:bg-pink-700 transition disabled:opacity-50"
         >
           {{ saving ? 'Saving...' : 'Save Settings' }}
         </button>
@@ -62,7 +62,7 @@
     </div>
 
     <!-- Info -->
-    <div class="mt-6 bg-gray-50 rounded-xl border border-gray-200 p-6">
+    <div class="mt-6 bg-pink-50 rounded-xl border border-gray-200 p-6">
       <h3 class="text-sm font-semibold text-gray-700 mb-3">Where to get API keys</h3>
       <div class="space-y-2 text-sm text-gray-500">
         <p><span class="font-medium text-gray-700">Google Gemini</span> — Get a free key from Google AI Studio (aistudio.google.com)</p>

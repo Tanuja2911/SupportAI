@@ -8,7 +8,7 @@
         v-for="conv in escalations"
         :key="conv.id"
         :to="`/app/conversations/${conv.id}`"
-        class="flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition block"
+        class="flex items-center justify-between px-6 py-4 hover:bg-pink-50 transition block"
       >
         <div>
           <p class="font-medium text-gray-800">{{ conv.customer_name || 'Anonymous' }}</p>
