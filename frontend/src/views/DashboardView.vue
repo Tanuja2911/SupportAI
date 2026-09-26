@@ -80,7 +80,6 @@
           <li>Paste it into your website HTML just before the closing <code>&lt;/body&gt;</code> tag. In a website builder, use its footer or custom-code area.</li>
           <li>Save and publish your website, then open it and try the chat bubble.</li>
         </ol>
-        <p class="mb-3 text-xs text-gray-500">The <code>src</code> link loads the widget file from your SupportAI server. You do not need to download that file. The key in this snippet connects the widget to this business; do not put your Gemini key in your website code.</p>
         <pre class="bg-gray-900 text-green-400 p-4 rounded-lg text-sm overflow-x-auto">{{ embedCode }}</pre>
       </div>
     </div>
