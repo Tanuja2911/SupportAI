@@ -1,50 +1,53 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
-      <router-link to="/" class="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 mb-6">
+  <div class="relative flex min-h-screen items-center justify-center overflow-hidden bg-blue-50 p-4">
+    <div class="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full bg-blue-200/50 blur-3xl"></div><div class="pointer-events-none absolute -bottom-24 -right-20 h-80 w-80 rounded-full bg-indigo-100 blur-3xl"></div>
+    <div class="relative w-full max-w-md rounded-2xl border border-stone-200 bg-white p-6 shadow-xl shadow-blue-950/5 sm:p-8">
+      <router-link to="/" class="mb-6 inline-flex items-center gap-1 text-sm text-stone-500 transition hover:text-blue-700">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
         Back to home
       </router-link>
-      <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-blue-600">SupportAI</h1>
-        <p class="text-gray-500 mt-2">Sign in to your account</p>
+      <div class="mb-8 text-center">
+        <h1 class="text-3xl font-bold tracking-tight text-stone-900">Support<span class="text-blue-600">AI</span></h1>
+        <p class="mt-2 text-stone-500">Sign in to your workspace</p>
       </div>
 
-      <div v-if="error" class="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">
+      <div v-if="error" class="mb-4 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700" role="alert">
         {{ error }}
       </div>
 
       <form @submit.prevent="handleLogin" class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <label class="mb-1 block text-sm font-medium text-stone-700">Email</label>
           <input
             v-model="email"
             type="email"
             required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            autocomplete="email"
+            class="w-full rounded-xl border border-stone-200 px-4 py-2.5 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
             placeholder="you@company.com"
           />
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <label class="mb-1 block text-sm font-medium text-stone-700">Password</label>
           <input
             v-model="password"
             type="password"
             required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            autocomplete="current-password"
+            class="w-full rounded-xl border border-stone-200 px-4 py-2.5 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
             placeholder="Your password"
           />
         </div>
         <button
           type="submit"
           :disabled="loading"
-          class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50"
+          class="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
         >
           {{ loading ? 'Signing in...' : 'Sign In' }}
         </button>
       </form>
 
-      <p class="text-center text-sm text-gray-500 mt-6">
+      <p class="mt-6 text-center text-sm text-stone-500">
         Don't have an account?
         <router-link to="/register" class="text-blue-600 font-medium hover:underline">Sign up</router-link>
       </p>

@@ -1,74 +1,17 @@
 <template>
-  <div class="p-8 max-w-2xl">
-    <h2 class="text-2xl font-bold text-gray-800 mb-2">AI Settings</h2>
-    <p class="text-gray-500 text-sm mb-6">Configure which LLM provider powers your AI agent.</p>
-
-    <div class="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
-      <!-- Provider Selection -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">LLM Provider</label>
-        <div class="grid grid-cols-3 gap-3">
-          <button
-            v-for="p in providers"
-            :key="p.value"
-            @click="provider = p.value"
-            class="p-4 rounded-lg border-2 text-center transition"
-            :class="provider === p.value ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-gray-300'"
-          >
-            <p class="font-semibold text-sm" :class="provider === p.value ? 'text-blue-700' : 'text-gray-800'">{{ p.name }}</p>
-            <p class="text-xs text-gray-400 mt-1">{{ p.model }}</p>
-          </button>
+  <div class="min-h-full bg-blue-50 px-4 py-6 sm:px-6 lg:px-10 lg:py-9">
+    <div class="mx-auto max-w-4xl space-y-6">
+      <header><p class="text-sm font-semibold uppercase tracking-[0.16em] text-blue-600">Assistant setup</p><h1 class="mt-2 text-3xl font-bold tracking-tight text-stone-900">AI Settings</h1><p class="mt-1 text-sm text-stone-500">Choose the model provider and connect its API key.</p></header>
+      <section class="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+        <div class="border-b border-stone-100 p-5 sm:p-6"><h2 class="text-base font-semibold text-stone-900">Model provider</h2><p class="mt-1 text-sm text-stone-500">Your key is stored for this workspace and used for assistant responses.</p></div>
+        <div class="space-y-6 p-5 sm:p-6">
+          <div><p class="mb-2 text-sm font-medium text-stone-700">Choose a provider</p><div class="grid grid-cols-1 gap-3 sm:grid-cols-3"><button v-for="p in providers" :key="p.value" @click="provider = p.value" :aria-pressed="provider === p.value" class="rounded-xl border p-4 text-left transition focus:outline-none focus:ring-2 focus:ring-blue-500" :class="provider === p.value ? 'border-blue-300 bg-blue-50 ring-1 ring-blue-200' : 'border-stone-200 hover:border-blue-200 hover:bg-stone-50'"><span class="flex items-center justify-between"><span class="text-sm font-semibold" :class="provider === p.value ? 'text-blue-800' : 'text-stone-800'">{{ p.name }}</span><span class="h-4 w-4 rounded-full border flex items-center justify-center" :class="provider === p.value ? 'border-blue-600' : 'border-stone-300'"><span v-if="provider === p.value" class="h-2 w-2 rounded-full bg-blue-600"></span></span></span><span class="mt-1 block text-xs text-stone-500">{{ p.model }}</span></button></div></div>
+          <label class="block"><span class="mb-1.5 block text-sm font-medium text-stone-700">{{ provider }} API key</span><span class="flex gap-2"><input v-model="apiKey" :type="showKey ? 'text' : 'password'" :placeholder="keyPlaceholder" autocomplete="new-password" class="min-w-0 flex-1 rounded-xl border border-stone-200 px-3.5 py-2.5 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"/><button type="button" @click="showKey = !showKey" class="rounded-xl border border-stone-200 px-3 text-sm font-medium text-stone-600 hover:bg-stone-50">{{ showKey ? 'Hide' : 'Show' }}</button></span><span class="mt-1.5 block text-xs text-stone-500">{{ keyHelp }}. Existing key: {{ hasKey ? 'configured' : 'not configured' }}.</span></label>
+          <div v-if="currentProvider" class="flex items-center gap-3 rounded-xl border border-stone-200 bg-stone-50 p-4"><span class="h-2.5 w-2.5 rounded-full" :class="hasKey ? 'bg-emerald-500' : 'bg-amber-500'"></span><p class="text-sm text-stone-600">Current provider: <span class="font-semibold text-stone-900">{{ currentProviderName }}</span></p><span class="ml-auto text-xs font-semibold" :class="hasKey ? 'text-emerald-700' : 'text-amber-700'">{{ hasKey ? 'Connected' : 'Needs a key' }}</span></div>
+          <div class="flex flex-col gap-3 border-t border-stone-100 pt-5 sm:flex-row sm:items-center"><button @click="save" :disabled="saving || !apiKey.trim()" class="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50">{{ saving ? 'Saving…' : 'Save settings' }}</button><p v-if="success" class="text-sm text-emerald-700" role="status">Settings saved successfully.</p><p v-if="error" class="text-sm text-rose-600" role="alert">{{ error }}</p></div>
         </div>
-      </div>
-
-      <!-- API Key Input -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">API Key</label>
-        <div class="flex gap-3">
-          <input
-            v-model="apiKey"
-            :type="showKey ? 'text' : 'password'"
-            :placeholder="keyPlaceholder"
-            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button @click="showKey = !showKey" class="px-3 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg hover:bg-blue-50">
-            {{ showKey ? 'Hide' : 'Show' }}
-          </button>
-        </div>
-        <p class="text-xs text-gray-400 mt-2">{{ keyHelp }}</p>
-      </div>
-
-      <!-- Status -->
-      <div v-if="currentProvider" class="bg-blue-50 rounded-lg p-4">
-        <p class="text-sm text-gray-600">
-          Current: <span class="font-medium text-gray-800">{{ currentProviderName }}</span>
-          <span v-if="hasKey" class="ml-2 text-green-600 text-xs font-medium">Key configured</span>
-          <span v-else class="ml-2 text-red-500 text-xs font-medium">No key set</span>
-        </p>
-      </div>
-
-      <!-- Save -->
-      <div class="flex items-center gap-3">
-        <button
-          @click="save"
-          :disabled="saving || !apiKey.trim()"
-          class="px-6 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
-        >
-          {{ saving ? 'Saving...' : 'Save Settings' }}
-        </button>
-        <p v-if="success" class="text-sm text-green-600">Settings saved successfully.</p>
-        <p v-if="error" class="text-sm text-red-500">{{ error }}</p>
-      </div>
-    </div>
-
-    <!-- Info -->
-    <div class="mt-6 bg-blue-50 rounded-xl border border-gray-200 p-6">
-      <h3 class="text-sm font-semibold text-gray-700 mb-3">Where to get API keys</h3>
-      <div class="space-y-2 text-sm text-gray-500">
-        <p><span class="font-medium text-gray-700">Google Gemini</span> — Get a free key from Google AI Studio (aistudio.google.com)</p>
-        <p><span class="font-medium text-gray-700">OpenAI</span> — Create a key at platform.openai.com/api-keys</p>
-        <p><span class="font-medium text-gray-700">Anthropic</span> — Create a key at console.anthropic.com/settings/keys</p>
-      </div>
+      </section>
+      <section class="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm sm:p-6"><h2 class="text-base font-semibold text-stone-900">Get an API key</h2><p class="mt-1 text-sm text-stone-500">Create a key with your provider, then paste it above.</p><div class="mt-4 grid gap-3 sm:grid-cols-3"><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" class="rounded-xl border border-stone-200 p-4 text-sm font-semibold text-stone-800 transition hover:border-blue-200 hover:bg-blue-50">Google AI Studio<span class="mt-1 block text-xs font-normal text-stone-500">Create a Gemini key ↗</span></a><a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer" class="rounded-xl border border-stone-200 p-4 text-sm font-semibold text-stone-800 transition hover:border-blue-200 hover:bg-blue-50">OpenAI Platform<span class="mt-1 block text-xs font-normal text-stone-500">Create an API key ↗</span></a><a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer" class="rounded-xl border border-stone-200 p-4 text-sm font-semibold text-stone-800 transition hover:border-blue-200 hover:bg-blue-50">Anthropic Console<span class="mt-1 block text-xs font-normal text-stone-500">Create an API key ↗</span></a></div></section>
     </div>
   </div>
 </template>

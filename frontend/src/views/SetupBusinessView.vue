@@ -1,48 +1,50 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
-      <div class="text-center mb-8">
-        <h1 class="text-2xl font-bold text-gray-800">Set Up Your Business</h1>
-        <p class="text-gray-500 mt-2">Create your first AI support agent</p>
+  <div class="relative flex min-h-screen items-center justify-center overflow-hidden bg-blue-50 p-4">
+    <div class="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full bg-blue-200/50 blur-3xl"></div><div class="pointer-events-none absolute -bottom-24 -right-20 h-80 w-80 rounded-full bg-indigo-100 blur-3xl"></div>
+    <div class="relative w-full max-w-lg rounded-2xl border border-stone-200 bg-white p-6 shadow-xl shadow-blue-950/5 sm:p-8">
+      <div class="mb-8 text-center">
+        <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-sm shadow-blue-200"><svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2v-9.5A7.5 7.5 0 0 1 10.5 4H12a8 8 0 0 1 8 7.5Z"/></svg></span>
+        <h1 class="mt-4 text-2xl font-bold tracking-tight text-stone-900">Set up your workspace</h1>
+        <p class="mt-2 text-sm text-stone-500">Add your business details to create your first support assistant.</p>
       </div>
 
-      <div v-if="error" class="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">
+      <div v-if="error" class="mb-4 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700" role="alert">
         {{ error }}
       </div>
 
       <form @submit.prevent="handleSetup" class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
+          <label class="mb-1 block text-sm font-medium text-stone-700">Business name</label>
           <input
             v-model="name"
             type="text"
             required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            class="w-full rounded-xl border border-stone-200 px-4 py-2.5 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
             placeholder="Acme Corp"
           />
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Description (optional)</label>
+          <label class="mb-1 block text-sm font-medium text-stone-700">Description <span class="font-normal text-stone-400">(optional)</span></label>
           <textarea
             v-model="description"
             rows="3"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
+            class="w-full resize-y rounded-xl border border-stone-200 px-4 py-2.5 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
             placeholder="What does your business do?"
           ></textarea>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Website (optional)</label>
+          <label class="mb-1 block text-sm font-medium text-stone-700">Website <span class="font-normal text-stone-400">(optional)</span></label>
           <input
             v-model="website"
             type="url"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            class="w-full rounded-xl border border-stone-200 px-4 py-2.5 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
             placeholder="https://acme.com"
           />
         </div>
         <button
           type="submit"
           :disabled="loading"
-          class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50"
+          class="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
         >
           {{ loading ? 'Creating...' : 'Create Business' }}
         </button>
