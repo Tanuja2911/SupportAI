@@ -1,19 +1,22 @@
 <template>
-  <div class="flex h-screen bg-gray-50">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+  <div class="app-shell">
+    <button v-if="mobileMenuOpen" type="button" class="app-nav-backdrop" aria-label="Close navigation" @click="mobileMenuOpen = false"></button>
+    <aside class="app-sidebar" :class="{ 'is-open': mobileMenuOpen }">
       <div class="p-6">
-        <h1 class="text-xl font-bold text-indigo-600">SupportAI</h1>
+        <h1 class="app-brand text-xl font-bold text-indigo-600">SupportAI<span class="text-gray-500">.</span></h1>
         <p class="text-xs text-gray-400 mt-1">{{ businessStore.currentBusiness?.name }}</p>
       </div>
 
-      <nav class="flex-1 px-4 space-y-1">
-        <router-link
-          v-for="item in navItems"
+      <nav class="app-nav flex-1 px-4">
+        <section v-for="group in navGroups" :key="group.label" class="app-nav-group">
+          <p class="app-nav-label">{{ group.label }}</p>
+          <router-link
+          v-for="item in group.items"
           :key="item.path"
           :to="item.path"
-          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition"
-          :class="$route.path === item.path ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100'"
+          @click="mobileMenuOpen = false"
+          class="app-nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition"
+          :class="$route.path === item.path || (item.path !== '/app' && $route.path.startsWith(item.path + '/')) ? 'is-active bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100'"
         >
           <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
             <path v-if="item.icon === 'grid'" stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
@@ -35,10 +38,11 @@
           >
             {{ item.badge }}
           </span>
-        </router-link>
+          </router-link>
+        </section>
       </nav>
 
-      <div class="p-4 border-t border-gray-200">
+      <div class="app-sidebar-footer p-4 border-t border-gray-200">
         <div class="flex items-center gap-3">
           <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-medium text-sm">
             {{ auth.user?.full_name?.charAt(0) || '?' }}
@@ -49,6 +53,7 @@
           </div>
         </div>
         <button
+          type="button"
           @click="handleLogout"
           class="mt-3 w-full text-sm text-gray-500 hover:text-red-600 transition text-left"
         >
@@ -58,34 +63,69 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 overflow-auto">
-      <router-view />
+    <main class="app-main flex-1 overflow-auto">
+      <header class="app-topbar">
+        <button type="button" class="app-menu-button" @click="mobileMenuOpen = !mobileMenuOpen" :aria-expanded="mobileMenuOpen" aria-label="Toggle navigation">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </button>
+        <div class="app-page-heading">
+          <p class="app-eyebrow">{{ businessStore.currentBusiness?.name || 'Your workspace' }} <span>·</span> WORKSPACE</p>
+          <h2>{{ pageTitle }}</h2>
+        </div>
+        <div class="app-topbar-actions">
+          <div class="app-topbar-user" :title="auth.user?.email || ''">{{ auth.user?.full_name?.charAt(0) || '?' }}</div>
+          <button type="button" class="app-signout-button" @click="handleLogout">Sign out</button>
+        </div>
+      </header>
+      <div class="app-page"><router-view /></div>
     </main>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth.js'
 import { useBusinessStore } from '../stores/business.js'
 
 const router = useRouter()
+const route = useRoute()
 const auth = useAuthStore()
 const businessStore = useBusinessStore()
+const mobileMenuOpen = ref(false)
 
-const navItems = ref([
-  { path: '/app', label: 'Dashboard', icon: 'grid' },
-  { path: '/app/knowledge', label: 'Knowledge Base', icon: 'book' },
-  { path: '/app/conversations', label: 'Conversations', icon: 'chat' },
-  { path: '/app/escalations', label: 'Escalations', icon: 'alert' },
-  { path: '/app/knowledge-gaps', label: 'Knowledge Gaps', icon: 'lightbulb' },
-  { path: '/app/faq', label: 'FAQ Overrides', icon: 'help' },
-  { path: '/app/widget', label: 'Widget Config', icon: 'settings' },
-  { path: '/app/ai-settings', label: 'AI Settings', icon: 'sparkle' },
-  { path: '/app/team', label: 'Team', icon: 'users' },
-  { path: '/app/sandbox', label: 'Test Chat', icon: 'terminal' },
+const navGroups = ref([
+  { label: 'Overview', items: [
+    { path: '/app', label: 'Dashboard', icon: 'grid' },
+  ] },
+  { label: 'Customer support', items: [
+    { path: '/app/conversations', label: 'Conversations', icon: 'chat' },
+    { path: '/app/escalations', label: 'Escalations', icon: 'alert' },
+    { path: '/app/knowledge', label: 'Knowledge Base', icon: 'book' },
+    { path: '/app/knowledge-gaps', label: 'Knowledge Gaps', icon: 'lightbulb' },
+    { path: '/app/faq', label: 'FAQ Overrides', icon: 'help' },
+    { path: '/app/sandbox', label: 'Test Chat', icon: 'terminal' },
+  ] },
+  { label: 'Workspace', items: [
+    { path: '/app/widget', label: 'Widget Studio', icon: 'settings' },
+    { path: '/app/ai-settings', label: 'AI & Models', icon: 'sparkle' },
+    { path: '/app/team', label: 'Team', icon: 'users' },
+  ] },
 ])
+
+const pageTitle = computed(() => ({
+  Dashboard: 'Workspace overview',
+  Knowledge: 'Knowledge library',
+  Conversations: 'Conversations',
+  ConversationDetail: 'Conversation details',
+  Escalations: 'Escalation queue',
+  KnowledgeGaps: 'Knowledge gaps',
+  FAQ: 'FAQ library',
+  Widget: 'Widget studio',
+  AISettings: 'AI & models',
+  Team: 'Team access',
+  Sandbox: 'Agent playground',
+}[route.name] || 'Workspace'))
 
 function handleLogout() {
   auth.logout()

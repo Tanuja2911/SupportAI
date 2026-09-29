@@ -16,6 +16,13 @@
       </div>
     </div>
 
+    <div v-if="actionError" class="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700" role="alert">
+      {{ actionError }}
+    </div>
+    <div v-if="actionSuccess" class="mb-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-700" role="status">
+      {{ actionSuccess }}
+    </div>
+
     <div v-if="uploading" class="bg-blue-50 text-blue-700 p-3 rounded-lg mb-4 text-sm">
       Uploading and processing document...
     </div>
@@ -53,7 +60,7 @@
             <td class="px-6 py-4 text-sm text-gray-500">{{ doc.chunk_count }}</td>
             <td class="px-6 py-4 text-sm text-gray-500">{{ new Date(doc.created_at).toLocaleDateString() }}</td>
             <td class="px-6 py-4">
-              <button @click="deleteDoc(doc.id)" class="text-red-500 hover:text-red-700 text-sm">Delete</button>
+              <button type="button" @click="requestDelete(doc)" :disabled="deletingId === doc.id" class="text-red-500 hover:text-red-700 text-sm disabled:cursor-not-allowed disabled:opacity-50">{{ deletingId === doc.id ? 'Deleting…' : 'Delete' }}</button>
             </td>
           </tr>
           <tr v-if="documents.length === 0">
@@ -81,17 +88,30 @@
           placeholder="Title (optional)"
           class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 outline-none focus:ring-2 focus:ring-indigo-500"
         />
+        <p v-if="actionError" class="mb-3 text-sm text-red-400" role="alert">{{ actionError }}</p>
         <div class="flex justify-end gap-3">
           <button @click="showUrlModal = false" class="px-4 py-2 text-gray-500 hover:text-gray-700 text-sm">Cancel</button>
           <button @click="handleUrlAdd" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700">Add</button>
         </div>
       </div>
     </div>
+
+    <ConfirmDialog
+      v-if="documentToDelete"
+      title="Delete this document?"
+      :message="`“${documentToDelete.title}” and its indexed content will be removed from your knowledge base.`"
+      :error="actionError"
+      confirm-label="Delete document"
+      :busy="deletingId !== null"
+      @cancel="documentToDelete = null"
+      @confirm="deleteDoc"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import ConfirmDialog from '../components/ConfirmDialog.vue'
 import api from '../api/client.js'
 import { useBusinessStore } from '../stores/business.js'
 
@@ -101,6 +121,10 @@ const uploading = ref(false)
 const showUrlModal = ref(false)
 const urlInput = ref('')
 const urlTitle = ref('')
+const actionError = ref('')
+const actionSuccess = ref('')
+const documentToDelete = ref(null)
+const deletingId = ref(null)
 
 const bid = businessStore.currentBusiness?.id
 
@@ -124,6 +148,8 @@ async function handleFileUpload(event) {
   const file = event.target.files[0]
   if (!file) return
   uploading.value = true
+  actionError.value = ''
+  actionSuccess.value = ''
   try {
     const formData = new FormData()
     formData.append('file', file)
@@ -132,7 +158,7 @@ async function handleFileUpload(event) {
     })
     await loadDocs()
   } catch (err) {
-    alert(err.response?.data?.detail || 'Upload failed')
+    actionError.value = err.response?.data?.detail || 'Upload failed'
   } finally {
     uploading.value = false
   }
@@ -140,21 +166,41 @@ async function handleFileUpload(event) {
 
 async function handleUrlAdd() {
   if (!urlInput.value) return
+  actionError.value = ''
+  actionSuccess.value = ''
   try {
     await api.post(`/knowledge/${bid}/url`, { url: urlInput.value, title: urlTitle.value || null })
     showUrlModal.value = false
     urlInput.value = ''
     urlTitle.value = ''
     await loadDocs()
+    actionSuccess.value = 'URL added to your knowledge base.'
   } catch (err) {
-    alert(err.response?.data?.detail || 'Failed to add URL')
+    actionError.value = err.response?.data?.detail || 'Failed to add URL'
   }
 }
 
-async function deleteDoc(docId) {
-  if (!confirm('Delete this document?')) return
-  await api.delete(`/knowledge/${bid}/documents/${docId}`)
-  await loadDocs()
+function requestDelete(document) {
+  actionError.value = ''
+  actionSuccess.value = ''
+  documentToDelete.value = document
+}
+
+async function deleteDoc() {
+  if (!documentToDelete.value || deletingId.value) return
+  const document = documentToDelete.value
+  deletingId.value = document.id
+  actionError.value = ''
+  try {
+    await api.delete(`/knowledge/${bid}/documents/${document.id}`)
+    documentToDelete.value = null
+    actionSuccess.value = 'Document deleted from your knowledge base.'
+    await loadDocs()
+  } catch (err) {
+    actionError.value = err.response?.data?.detail || 'Failed to delete document'
+  } finally {
+    deletingId.value = null
+  }
 }
 
 onMounted(loadDocs)

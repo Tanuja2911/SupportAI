@@ -19,9 +19,12 @@ export const useBusinessStore = defineStore('business', () => {
   async function fetchMyBusinesses() {
     const { data } = await api.get('/auth/my-businesses')
     businesses.value = data
-    if (data.length > 0 && !currentBusiness.value) {
-      currentBusiness.value = data[0]
-      localStorage.setItem('currentBusiness', JSON.stringify(data[0]))
+    if (data.length > 0) {
+      const match = currentBusiness.value
+        ? data.find(b => b.id === currentBusiness.value.id)
+        : null
+      currentBusiness.value = match || data[0]
+      localStorage.setItem('currentBusiness', JSON.stringify(currentBusiness.value))
     }
     return data
   }

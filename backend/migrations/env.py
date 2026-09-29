@@ -1,6 +1,12 @@
+import os
+import sys
 from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
+
+# Ensure backend root is on sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from app.core.config import get_settings
 from app.core.database import Base
 
@@ -12,6 +18,7 @@ from app.models.conversation import Conversation, Message
 from app.models.widget import WidgetConfig
 from app.models.faq import FAQOverride
 from app.models.analytics import AnalyticsEvent
+from app.models.knowledge_gap import KnowledgeGap
 
 config = context.config
 settings = get_settings()

@@ -1,40 +1,51 @@
 <template>
-  <div class="min-h-screen bg-white">
+  <div class="landing-page min-h-screen bg-white">
     <!-- Navbar -->
-    <nav class="border-b border-gray-100">
-      <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <h1 class="text-xl font-bold text-indigo-600">SupportAI</h1>
-        <div class="flex items-center gap-4">
-          <router-link to="/login" class="text-sm text-gray-600 hover:text-gray-900">Sign in</router-link>
-          <router-link to="/register" class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition">Get Started</router-link>
+    <nav class="landing-nav">
+      <div class="landing-nav-inner">
+        <router-link to="/" class="landing-brand"><span class="landing-brand-mark">S</span><span>Support<span>AI</span></span></router-link>
+        <div class="landing-nav-links">
+          <a href="#how-it-works">How it works</a>
+          <a href="#features">Platform</a>
+          <router-link to="/login" class="landing-sign-in">Sign in</router-link>
+          <router-link to="/register" class="landing-nav-cta">Create workspace <span aria-hidden="true">↗</span></router-link>
         </div>
       </div>
     </nav>
 
-    <!-- Hero -->
-    <section class="max-w-6xl mx-auto px-6 py-20 text-center">
-      <div class="inline-block px-3 py-1 bg-indigo-50 text-indigo-600 text-xs font-medium rounded-full mb-6">
-        Powered by RAG + Active Learning
+    <!-- Product-first hero -->
+    <section class="landing-hero">
+      <div class="landing-hero-copy">
+        <div class="landing-pill"><span></span> AI support that learns from every question</div>
+        <h2>Support that gets<br /><em>smarter over time.</em></h2>
+        <p>Turn your knowledge into a thoughtful support agent. Resolve routine questions instantly, surface what your docs are missing, and keep your team in control.</p>
+        <div class="landing-hero-actions">
+          <router-link to="/register" class="landing-primary-cta">Build your agent <span aria-hidden="true">→</span></router-link>
+          <a href="#how-it-works" class="landing-text-cta">Explore the platform <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="landing-proof"><span class="landing-proof-dot"></span> Private by design <span class="landing-proof-divider">/</span> Bring your own model key <span class="landing-proof-divider">/</span> One-line install</div>
       </div>
-      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-        Build AI Support Agents<br />
-        <span class="text-indigo-600">That Get Smarter Over Time</span>
-      </h2>
-      <p class="mt-6 text-lg text-gray-500 max-w-2xl mx-auto">
-        Upload your docs, and SupportAI creates a chatbot that answers customer questions instantly. It detects what it doesn't know and tells you exactly what content to add.
-      </p>
-      <div class="mt-8 flex items-center justify-center gap-4">
-        <router-link to="/register" class="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition text-sm">
-          Start Building — Free
-        </router-link>
-        <a href="#how-it-works" class="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition text-sm">
-          See How It Works
-        </a>
+
+      <div class="landing-demo-wrap">
+        <div class="landing-demo-glow" aria-hidden="true"></div>
+        <div class="landing-demo-window">
+          <div class="landing-demo-toolbar"><div class="landing-window-dots"><i></i><i></i><i></i></div><span>store.example.com</span><span class="landing-demo-live"><i></i> LIVE PREVIEW</span></div>
+          <div class="landing-demo-content">
+            <div class="landing-demo-site-head"><span>MONO / GOODS</span><span>SHOP&nbsp;&nbsp; ABOUT&nbsp;&nbsp; JOURNAL</span></div>
+            <div class="landing-demo-site-copy"><span>OBJECTS FOR SLOW LIVING</span><strong>Made for the<br />everyday ritual.</strong><i></i><i></i></div>
+            <div class="landing-demo-chat">
+              <div class="landing-demo-chat-head"><span class="landing-demo-avatar">S</span><span><b>Studio assistant</b><small><i></i> Here to help</small></span><span class="landing-demo-menu">•••</span></div>
+              <div class="landing-demo-chat-body"><small>EXAMPLE CONVERSATION</small><div class="landing-demo-bubble">Hi there. Looking for a little more information?</div><div class="landing-demo-user-bubble">How long does shipping take?</div><div class="landing-demo-bubble">Most orders arrive in 3–5 business days. I can help you track yours, too.</div><div class="landing-demo-source"><span>✦</span> Answer grounded in Shipping guide</div></div>
+              <div class="landing-demo-input">Ask anything <span>↑</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="landing-float-card"><span class="landing-float-icon">✦</span><span><b>Knowledge, connected</b><small>Answers with real sources</small></span><span class="landing-float-check">✓</span></div>
       </div>
     </section>
 
     <!-- How It Works -->
-    <section id="how-it-works" class="bg-gray-50 py-20">
+    <section id="how-it-works" class="landing-process bg-gray-50 py-20">
       <div class="max-w-6xl mx-auto px-6">
         <h3 class="text-2xl font-bold text-gray-900 text-center mb-12">How It Works</h3>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -99,9 +110,10 @@
     </section>
 
     <!-- Features -->
-    <section class="bg-gray-50 py-20">
+    <section id="features" class="landing-features bg-gray-50 py-20">
       <div class="max-w-6xl mx-auto px-6">
-        <h3 class="text-2xl font-bold text-gray-900 text-center mb-12">All Features</h3>
+        <p class="landing-section-kicker">THE SUPPORTAI PLATFORM</p>
+        <h3 class="text-2xl font-bold text-gray-900 mb-12">Everything your support loop needs.</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="feature in features" :key="feature.title" class="bg-white p-5 rounded-xl border border-gray-200">
             <h4 class="font-semibold text-gray-800 mb-1">{{ feature.title }}</h4>
@@ -133,12 +145,12 @@
 
 <script setup>
 const features = [
-  { title: 'RAG-Powered Answers', desc: 'Uses Retrieval-Augmented Generation to answer only from your uploaded documents — no hallucinations.' },
+  { title: 'Grounded answers', desc: 'Retrieval-Augmented Generation keeps answers tied to your uploaded source material and flags when information is missing.' },
   { title: 'Multi-Provider LLM Support', desc: 'Choose between Google Gemini, OpenAI, or Anthropic. Bring your own API key.' },
   { title: 'Knowledge Gap Detection', desc: 'AI identifies what your docs don\'t cover and suggests exactly what content to add.' },
   { title: 'Auto-FAQ Generator', desc: 'AI reads your documents and auto-generates FAQ pairs. Review and accept with one click.' },
   { title: 'Multi-Format Upload', desc: 'Supports PDF, DOCX, TXT files, and website URLs as knowledge sources.' },
-  { title: 'Auto-Escalation', desc: 'Low-confidence responses are automatically escalated to human agents.' },
+  { title: 'Intent-aware handoff', desc: 'Respect explicit requests for a person without turning every low-confidence answer into a false escalation.' },
   { title: 'Embeddable Widget', desc: 'Add a chat widget to any website with a single script tag. Fully customizable.' },
   { title: 'Team Collaboration', desc: 'Invite agents and viewers with role-based access to manage support together.' },
   { title: 'Analytics Dashboard', desc: 'Track conversations, confidence scores, escalations, and document status at a glance.' },

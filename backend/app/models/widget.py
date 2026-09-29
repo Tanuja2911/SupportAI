@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime, timezone
-from sqlalchemy import Column, String, DateTime, ForeignKey, Text, Boolean
+from sqlalchemy import Column, String, DateTime, ForeignKey, Text, Boolean, JSON
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from app.core.database import Base
@@ -18,6 +18,8 @@ class WidgetConfig(Base):
     show_branding = Column(Boolean, default=True)
     auto_open_delay = Column(String(10), nullable=True)
     placeholder_text = Column(String(255), default="Type your question...")
+    allowed_domains = Column(JSON, default=list, nullable=True)
+    allow_localhost = Column(Boolean, default=True, nullable=False)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
