@@ -142,6 +142,12 @@ body {
 .app-page [class~="bg-blue-50"] { background-color: rgba(96, 165, 250, 0.09) !important; }
 .app-page [class~="bg-red-50"], .app-page [class~="bg-rose-50"] { background-color: rgba(248, 113, 113, 0.09) !important; }
 .app-page [class~="bg-emerald-100"], .app-page [class~="bg-green-100"] { background-color: rgba(52, 211, 153, 0.14) !important; }
+.app-page [class~="text-stone-900"] { color: #f5f2fa !important; }
+.app-page [class~="text-stone-800"] { color: #e7e3ee !important; }
+.app-page [class~="text-stone-700"] { color: #d1cdda !important; }
+.app-page [class~="text-stone-600"] { color: #b2adbe !important; }
+.app-page [class~="text-stone-500"] { color: #a7a2b2 !important; }
+.app-page [class~="text-stone-400"] { color: #9892a4 !important; }
 .app-page [class~="text-gray-900"] { color: #f5f2fa !important; }
 .app-page [class~="text-gray-800"] { color: #e7e3ee !important; }
 .app-page [class~="text-gray-700"] { color: #d1cdda !important; }
