@@ -52,6 +52,14 @@
             <p class="text-xs text-gray-500">Copy the 1-line embed script below and paste it into your website. Configure allowed domains in <router-link to="/app/widget" class="text-indigo-600 underline">Widget Config</router-link>.</p>
           </div>
         </div>
+        <router-link to="/app/sandbox" class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8M8 14h5m-8 6 3.5-3H18a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v14Z"/></svg>
+          Test your assistant
+        </router-link>
+      </header>
+
+      <div v-if="loading" class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4" aria-label="Loading dashboard" aria-live="polite">
+        <div v-for="n in 8" :key="n" class="h-28 animate-pulse rounded-2xl border border-stone-200 bg-white"></div>
       </div>
 
       <!-- Stats Grid -->
@@ -172,6 +180,17 @@ const copiedPublicKey = ref(false)
 const copiedSecretKey = ref(false)
 const copiedEmbed = ref(false)
 const showGuide = ref(localStorage.getItem('supportiq_guide_dismissed') !== 'true')
+const copiedKey = ref(false)
+const copiedEmbed = ref(false)
+let copiedKeyTimeout
+let copiedEmbedTimeout
+
+const guideSteps = [
+  { number: '01', title: 'Add knowledge', before: 'Upload PDFs, DOCX files, or URLs in ', link: 'Knowledge Base', to: '/app/knowledge', after: ' so the assistant can answer from your content.' },
+  { number: '02', title: 'Try a question', before: 'Use ', link: 'Test Chat', to: '/app/sandbox', after: ' to check answers from your assistant.' },
+  { number: '03', title: 'Add quick answers', before: 'Set up common questions in ', link: 'FAQ Overrides', to: '/app/faq', after: ' for exact responses.' },
+  { number: '04', title: 'Add it to your site', before: 'Copy the widget code below. Change its appearance in ', link: 'Widget Config', to: '/app/widget', after: '.' },
+]
 
 let pubKeyTimer = null
 let secKeyTimer = null
@@ -192,14 +211,14 @@ const stats = computed(() => {
   if (!dashboard.value) return []
   const d = dashboard.value
   return [
-    { label: 'Total Conversations', value: d.total_conversations, color: 'text-gray-800' },
-    { label: 'Active', value: d.active_conversations, color: 'text-green-600' },
-    { label: 'Escalated', value: d.escalated_conversations, color: 'text-red-600' },
-    { label: 'Avg Confidence', value: (d.avg_confidence * 100).toFixed(1) + '%', color: 'text-indigo-600' },
-    { label: 'Total Messages', value: d.total_messages, color: 'text-gray-800' },
-    { label: 'AI Responses', value: d.ai_messages, color: 'text-blue-600' },
-    { label: 'Documents', value: d.total_documents, color: 'text-gray-800' },
-    { label: 'Ready Docs', value: d.ready_documents, color: 'text-green-600' },
+    { label: 'Total conversations', value: d.total_conversations, icon: 'chat' },
+    { label: 'Active conversations', value: d.active_conversations, icon: 'sparkle' },
+    { label: 'Escalated', value: d.escalated_conversations, icon: 'alert' },
+    { label: 'Average confidence', value: (d.avg_confidence * 100).toFixed(1) + '%', icon: 'confidence' },
+    { label: 'Total messages', value: d.total_messages },
+    { label: 'AI responses', value: d.ai_messages },
+    { label: 'Knowledge documents', value: d.total_documents },
+    { label: 'Ready documents', value: d.ready_documents },
   ]
 })
 

@@ -81,7 +81,7 @@ const count = ref(0)
         <li>
           <a href="https://bsky.app/profile/vite.dev" target="_blank">
             <svg class="button-icon" role="presentation" aria-hidden="true">
-              <use href="/icons.svg#bluesky-icon"></use>
+              <use href="/icons.svg#blueamber-icon"></use>
             </svg>
             Bluesky
           </a>
