@@ -252,8 +252,14 @@ body {
 .landing-process, .landing-features { border-block: 1px solid rgba(173,190,220,.08); }
 .landing-process h3, .landing-page > section > div > h3 { letter-spacing: -.045em; }
 .landing-page .bg-white.rounded-xl { border-color: var(--surface-border); background-image: linear-gradient(145deg, rgba(255,255,255,.035), transparent 62%); box-shadow: 0 16px 42px rgba(0,0,0,.16); transition: border-color 190ms var(--control-ease), background-color 190ms var(--control-ease), box-shadow 190ms var(--control-ease), transform 190ms var(--control-ease); }
+.landing-cta-card { border: 1px solid rgba(167,139,250,.2); background: radial-gradient(ellipse at 12% 0%, rgba(124,92,210,.15), transparent 58%), linear-gradient(145deg, #151620, #101117); color: #f1eff8; box-shadow: 0 28px 80px rgba(0,0,0,.28), inset 0 1px rgba(255,255,255,.04); }
+.landing-cta-card > p:first-child { color: #b9a6ff; }
+.landing-cta-card h2 { color: #f5f2fa; }
+.landing-cta-card > p:nth-of-type(2) { color: #a7a2b2; }
+.landing-cta-button { border: 1px solid rgba(201,187,255,.27); background: linear-gradient(135deg, #a994ff, #7557d8); box-shadow: 0 10px 28px rgba(100,72,190,.23), inset 0 1px rgba(255,255,255,.2); color: #fff; text-decoration: none; transition: transform 190ms var(--control-ease), box-shadow 190ms var(--control-ease), filter 190ms var(--control-ease); }
+.landing-cta-button:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(100,72,190,.3), inset 0 1px rgba(255,255,255,.2); filter: brightness(1.05); }
 .landing-page footer { border-color: rgba(173,190,220,.1) !important; }
-.landing-page .landing-nav-cta:focus-visible, .landing-page .landing-primary-cta:focus-visible, .landing-page .landing-text-cta:focus-visible { outline: 2px solid #c4b5fd; outline-offset: 4px; }
+.landing-page .landing-nav-cta:focus-visible, .landing-page .landing-primary-cta:focus-visible, .landing-page .landing-text-cta:focus-visible, .landing-page .landing-cta-button:focus-visible { outline: 2px solid #c4b5fd; outline-offset: 4px; }
 .app-page input::placeholder, .app-page textarea::placeholder { color: #777286; }
 .app-page .bg-white.rounded-xl {
   border-color: var(--surface-border);

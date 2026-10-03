@@ -73,7 +73,12 @@
       </section>
 
       <section class="px-5 py-20 sm:px-8 sm:py-24">
-        <div class="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-blue-100 px-6 py-12 text-center text-stone-900 shadow-lg shadow-blue-950/5 sm:px-12 sm:py-16"><p class="text-sm font-semibold text-blue-700">Start building today</p><h2 class="mx-auto mt-3 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">Give customers answers, and your team a clearer next step.</h2><p class="mx-auto mt-4 max-w-xl text-sm leading-6 text-stone-600 sm:text-base">Set up a workspace, add your support content, and try the assistant with your own questions.</p><router-link to="/register" class="mt-8 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700">Get started <span aria-hidden="true">→</span></router-link></div>
+        <div class="landing-cta-card mx-auto max-w-5xl overflow-hidden rounded-3xl px-6 py-12 text-center sm:px-12 sm:py-16">
+          <p class="text-sm font-semibold">Start building today</p>
+          <h2 class="mx-auto mt-3 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">Give customers answers, and your team a clearer next step.</h2>
+          <p class="mx-auto mt-4 max-w-xl text-sm leading-6 sm:text-base">Set up a workspace, add your support content, and try the assistant with your own questions.</p>
+          <router-link to="/register" class="landing-cta-button mt-8 inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold">Get started <span aria-hidden="true">→</span></router-link>
+        </div>
       </section>
     </main>
 
