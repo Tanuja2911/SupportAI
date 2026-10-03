@@ -13,6 +13,7 @@
       </div>
     </nav>
 
+    <main>
     <!-- Product-first hero -->
     <section class="landing-hero">
       <div class="landing-hero-copy">
@@ -45,21 +46,6 @@
     </section>
 
     <!-- How It Works -->
-    <section id="how-it-works" class="landing-process bg-gray-50 py-20">
-      <div class="max-w-6xl mx-auto px-6">
-        <h3 class="text-2xl font-bold text-gray-900 text-center mb-12">How It Works</h3>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div class="bg-white rounded-xl p-6 border border-gray-200 text-center">
-            <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-              </svg>
-            </div>
-            <div class="absolute -bottom-6 -left-4 hidden rounded-xl border border-white/10 bg-stone-900/90 px-4 py-3 text-xs text-white shadow-xl sm:block"><span class="mr-2 text-emerald-400">●</span>Knowledge gaps help you improve</div>
-          </div>
-        </div>
-      </section>
-
       <section id="how-it-works" class="bg-white py-20 sm:py-24">
         <div class="mx-auto max-w-7xl px-5 sm:px-8">
           <div class="mx-auto max-w-2xl text-center"><p class="text-sm font-semibold uppercase tracking-[0.16em] text-blue-600">Simple setup</p><h2 class="mt-3 text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">From documents to helpful support</h2><p class="mt-4 text-base leading-7 text-stone-500">Give your assistant useful information, review how it responds, and add it to your website.</p></div>
@@ -83,6 +69,7 @@
             <p class="text-sm text-gray-500">{{ feature.desc }}</p>
           </div>
         </div>
+      </div>
       </section>
 
       <section class="px-5 py-20 sm:px-8 sm:py-24">

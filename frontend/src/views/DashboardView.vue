@@ -56,7 +56,7 @@
           <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8M8 14h5m-8 6 3.5-3H18a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v14Z"/></svg>
           Test your assistant
         </router-link>
-      </header>
+      </div>
 
       <div v-if="loading" class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4" aria-label="Loading dashboard" aria-live="polite">
         <div v-for="n in 8" :key="n" class="h-28 animate-pulse rounded-2xl border border-stone-200 bg-white"></div>
@@ -180,10 +180,6 @@ const copiedPublicKey = ref(false)
 const copiedSecretKey = ref(false)
 const copiedEmbed = ref(false)
 const showGuide = ref(localStorage.getItem('supportiq_guide_dismissed') !== 'true')
-const copiedKey = ref(false)
-const copiedEmbed = ref(false)
-let copiedKeyTimeout
-let copiedEmbedTimeout
 
 const guideSteps = [
   { number: '01', title: 'Add knowledge', before: 'Upload PDFs, DOCX files, or URLs in ', link: 'Knowledge Base', to: '/app/knowledge', after: ' so the assistant can answer from your content.' },

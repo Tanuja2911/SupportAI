@@ -16,96 +16,6 @@
       </div>
     </div>
 
-    <div v-if="actionError" class="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700" role="alert">
-      {{ actionError }}
-    </div>
-    <div v-if="actionSuccess" class="mb-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-700" role="status">
-      {{ actionSuccess }}
-    </div>
-
-    <div v-if="uploading" class="bg-blue-50 text-blue-700 p-3 rounded-lg mb-4 text-sm">
-      Uploading and processing document...
-    </div>
-
-    <!-- Documents Table -->
-    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-      <table class="w-full">
-        <thead class="bg-gray-50 border-b border-gray-200">
-          <tr>
-            <th class="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">Title</th>
-            <th class="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">Type</th>
-            <th class="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">Status</th>
-            <th class="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">Chunks</th>
-            <th class="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">Date</th>
-            <th class="px-6 py-3"></th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-100">
-          <tr v-for="doc in documents" :key="doc.id" class="hover:bg-gray-50">
-            <td class="px-6 py-4 text-sm font-medium text-gray-800">
-              {{ doc.title }}
-              <p v-if="doc.status === 'failed' && doc.error_message" class="mt-1 text-xs font-normal text-red-600">
-                {{ doc.error_message }}
-              </p>
-            </td>
-            <td class="px-6 py-4 text-sm text-gray-500 uppercase">{{ doc.file_type }}</td>
-            <td class="px-6 py-4">
-              <span
-                class="px-2 py-1 rounded-full text-xs font-medium"
-                :class="statusClass(doc.status)"
-              >
-                {{ doc.status }}
-              </span>
-            </td>
-            <td class="px-6 py-4 text-sm text-gray-500">{{ doc.chunk_count }}</td>
-            <td class="px-6 py-4 text-sm text-gray-500">{{ new Date(doc.created_at).toLocaleDateString() }}</td>
-            <td class="px-6 py-4">
-              <button type="button" @click="requestDelete(doc)" :disabled="deletingId === doc.id" class="text-red-500 hover:text-red-700 text-sm disabled:cursor-not-allowed disabled:opacity-50">{{ deletingId === doc.id ? 'Deleting…' : 'Delete' }}</button>
-            </td>
-          </tr>
-          <tr v-if="documents.length === 0">
-            <td colspan="6" class="px-6 py-12 text-center text-gray-400">
-              No documents yet. Upload a PDF, DOCX, or add a URL to get started.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- URL Modal -->
-    <div v-if="showUrlModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-xl p-6 w-full max-w-md">
-        <h3 class="text-lg font-bold mb-4">Add URL</h3>
-        <input
-          v-model="urlInput"
-          type="url"
-          placeholder="https://docs.example.com/faq"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-3 outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-        <input
-          v-model="urlTitle"
-          type="text"
-          placeholder="Title (optional)"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-        <p v-if="actionError" class="mb-3 text-sm text-red-400" role="alert">{{ actionError }}</p>
-        <div class="flex justify-end gap-3">
-          <button @click="showUrlModal = false" class="px-4 py-2 text-gray-500 hover:text-gray-700 text-sm">Cancel</button>
-          <button @click="handleUrlAdd" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700">Add</button>
-        </div>
-        <div class="flex flex-wrap gap-2">
-          <button @click="showUrlModal = true" class="inline-flex items-center gap-2 rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 shadow-sm transition hover:border-blue-200 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-            <svg class="h-4 w-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10 13a5 5 0 0 0 7.1 0l3-3A5 5 0 0 0 13 2.9l-1.7 1.7m2.7 6.4a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1.7-1.7"/></svg>
-            Add a URL
-          </button>
-          <label class="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2" :class="uploading ? 'pointer-events-none opacity-60' : ''">
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0L7 9m5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
-            {{ uploading ? 'Uploading…' : 'Upload a file' }}
-            <input type="file" class="sr-only" accept=".pdf,.docx,.txt" :disabled="uploading" @change="handleFileUpload" />
-          </label>
-        </div>
-      </header>
-
       <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <article v-for="item in summary" :key="item.label" class="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm sm:p-5">
           <p class="text-xs font-medium text-stone-500 sm:text-sm">{{ item.label }}</p>
@@ -168,8 +78,6 @@
           <div v-else class="mt-5 flex justify-center gap-2"><button @click="showUrlModal = true" class="rounded-lg border border-stone-200 px-3 py-2 text-sm font-semibold text-stone-700 hover:bg-stone-50">Add a URL</button><label class="cursor-pointer rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700">Upload file<input type="file" class="sr-only" accept=".pdf,.docx,.txt" :disabled="uploading" @change="handleFileUpload" /></label></div>
         </div>
       </section>
-    </div>
-
     <div v-if="showUrlModal" class="fixed inset-0 z-50 flex items-center justify-center bg-stone-950/45 p-4 backdrop-blur-[2px]" @click.self="closeUrlModal" @keydown.esc="closeUrlModal">
       <section role="dialog" aria-modal="true" aria-labelledby="url-modal-title" class="w-full max-w-lg rounded-2xl border border-stone-200 bg-white p-5 shadow-xl sm:p-6">
         <div class="flex items-start justify-between gap-4"><div><p class="text-xs font-semibold uppercase tracking-[0.14em] text-blue-600">Add a source</p><h2 id="url-modal-title" class="mt-1 text-xl font-bold text-stone-900">Import a web page</h2><p class="mt-1 text-sm text-stone-500">Your assistant will use this page as a source when answering questions.</p></div><button @click="closeUrlModal" class="rounded-lg p-2 text-stone-400 hover:bg-stone-100 hover:text-stone-700" aria-label="Close dialog"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" d="m6 6 12 12M18 6 6 18"/></svg></button></div>
@@ -196,7 +104,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import ConfirmDialog from '../components/ConfirmDialog.vue'
 import api from '../api/client.js'
 import { useBusinessStore } from '../stores/business.js'
@@ -206,15 +114,15 @@ const documents = ref([])
 const uploading = ref(false)
 const loading = ref(true)
 const loadError = ref(false)
+const notice = ref({ type: 'success', message: '' })
 const showUrlModal = ref(false)
 const addingUrl = ref(false)
-const deletingId = ref(null)
 const searchQuery = ref('')
 const statusFilter = ref('')
 const urlInput = ref('')
 const urlTitle = ref('')
+const urlError = ref('')
 const actionError = ref('')
-const actionSuccess = ref('')
 const documentToDelete = ref(null)
 const deletingId = ref(null)
 
@@ -265,6 +173,8 @@ function closeUrlModal() {
   if (addingUrl.value) return
   showUrlModal.value = false
   urlError.value = ''
+  urlInput.value = ''
+  urlTitle.value = ''
 }
 
 async function loadDocs() {
@@ -291,7 +201,6 @@ async function handleFileUpload(event) {
   if (!file || !bid.value) return
   uploading.value = true
   actionError.value = ''
-  actionSuccess.value = ''
   try {
     const formData = new FormData()
     formData.append('file', file)
@@ -299,16 +208,16 @@ async function handleFileUpload(event) {
     showNotice('success', `${file.name} uploaded. Processing has started.`)
     await loadDocs()
   } catch (err) {
-    actionError.value = err.response?.data?.detail || 'Upload failed'
+    showNotice('error', err.response?.data?.detail || 'Upload failed')
   } finally {
     uploading.value = false
   }
 }
 
 async function handleUrlAdd() {
-  if (!urlInput.value) return
-  actionError.value = ''
-  actionSuccess.value = ''
+  if (!urlInput.value || !bid.value || addingUrl.value) return
+  urlError.value = ''
+  addingUrl.value = true
   try {
     await api.post(`/knowledge/${bid.value}/url`, { url: urlInput.value, title: urlTitle.value || null })
     const sourceTitle = urlTitle.value || urlInput.value
@@ -317,15 +226,15 @@ async function handleUrlAdd() {
     urlTitle.value = ''
     showNotice('success', `${sourceTitle} added. Processing has started.`)
     await loadDocs()
-    actionSuccess.value = 'URL added to your knowledge base.'
   } catch (err) {
-    actionError.value = err.response?.data?.detail || 'Failed to add URL'
+    urlError.value = err.response?.data?.detail || 'Failed to add URL'
+  } finally {
+    addingUrl.value = false
   }
 }
 
 function requestDelete(document) {
   actionError.value = ''
-  actionSuccess.value = ''
   documentToDelete.value = document
 }
 
@@ -335,9 +244,9 @@ async function deleteDoc() {
   deletingId.value = document.id
   actionError.value = ''
   try {
-    await api.delete(`/knowledge/${bid}/documents/${document.id}`)
+    await api.delete(`/knowledge/${bid.value}/documents/${document.id}`)
     documentToDelete.value = null
-    actionSuccess.value = 'Document deleted from your knowledge base.'
+    showNotice('success', 'Document deleted from your knowledge base.')
     await loadDocs()
   } catch (err) {
     actionError.value = err.response?.data?.detail || 'Failed to delete document'
