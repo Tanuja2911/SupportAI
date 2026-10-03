@@ -16,16 +16,35 @@ class BusinessUpdate(BaseModel):
 
 
 class LLMSettingsUpdate(BaseModel):
-    llm_provider: str
-    llm_api_key: str
+    llm_provider: str = "gemini"
+    llm_api_key: str | None = None
 
 
 class LLMSettingsResponse(BaseModel):
     llm_provider: str | None
     has_api_key: bool
+    is_using_platform_default: bool = False
 
     class Config:
         from_attributes = True
+
+
+class LLMTestConnectionRequest(BaseModel):
+    provider: str = "gemini"  # "gemini" | "openai"
+    api_key: str | None = None  # candidate key, or None to test active saved/platform key
+    business_id: str | None = None
+
+
+class LLMTestConnectionResponse(BaseModel):
+    status: str  # "connected" | "error"
+    provider: str  # "gemini" | "openai"
+    model: str | None = None
+    latency_ms: int | None = None
+    message: str
+    error_code: str | None = None
+    diagnostic: str | None = None
+    action_hint: str | None = None
+    is_platform_default: bool = False
 
 
 class BusinessResponse(BaseModel):
@@ -35,6 +54,7 @@ class BusinessResponse(BaseModel):
     description: str | None
     website: str | None
     api_key: str
+    public_key: str
     llm_provider: str | None
     has_llm_key: bool = False
     created_at: datetime

@@ -1,67 +1,71 @@
 <template>
-  <div class="relative flex min-h-screen items-center justify-center overflow-hidden bg-blue-50 p-4">
-    <div class="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full bg-blue-200/50 blur-3xl"></div><div class="pointer-events-none absolute -bottom-24 -right-20 h-80 w-80 rounded-full bg-indigo-100 blur-3xl"></div>
-    <div class="relative w-full max-w-md rounded-2xl border border-stone-200 bg-white p-6 shadow-xl shadow-blue-950/5 sm:p-8">
-      <router-link to="/" class="mb-6 inline-flex items-center gap-1 text-sm text-stone-500 transition hover:text-blue-700">
+  <div class="auth-page">
+    <div class="auth-card">
+      <router-link to="/" class="auth-back-link">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
         Back to home
       </router-link>
-      <div class="mb-8 text-center">
-        <h1 class="text-3xl font-bold tracking-tight text-stone-900">Support<span class="text-blue-600">AI</span></h1>
-        <p class="mt-2 text-stone-500">Create your workspace account</p>
+      <div class="auth-heading">
+        <span class="auth-mark" aria-hidden="true">S</span>
+        <p class="auth-eyebrow">SUPPORT WORKSPACE</p>
+        <h1>SupportAI</h1>
+        <p class="auth-subtitle">Create your account</p>
       </div>
 
-      <div v-if="error" class="mb-4 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700" role="alert">
+      <div v-if="error" class="auth-error" role="alert">
         {{ error }}
       </div>
 
-      <form @submit.prevent="handleRegister" class="space-y-4">
+      <form @submit.prevent="handleRegister" class="auth-form">
         <div>
-          <label class="mb-1 block text-sm font-medium text-stone-700">Full name</label>
+          <label for="register-name" class="auth-label">Full Name</label>
           <input
             v-model="fullName"
+            id="register-name"
             type="text"
-            required
             autocomplete="name"
-            class="w-full rounded-xl border border-stone-200 px-4 py-2.5 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+            required
+            class="auth-input"
             placeholder="John Doe"
           />
         </div>
         <div>
-          <label class="mb-1 block text-sm font-medium text-stone-700">Email</label>
+          <label for="register-email" class="auth-label">Email</label>
           <input
             v-model="email"
+            id="register-email"
             type="email"
-            required
             autocomplete="email"
-            class="w-full rounded-xl border border-stone-200 px-4 py-2.5 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+            required
+            class="auth-input"
             placeholder="you@company.com"
           />
         </div>
         <div>
-          <label class="mb-1 block text-sm font-medium text-stone-700">Password</label>
+          <label for="register-password" class="auth-label">Password</label>
           <input
             v-model="password"
+            id="register-password"
             type="password"
+            autocomplete="new-password"
             required
             minlength="6"
-            autocomplete="new-password"
-            class="w-full rounded-xl border border-stone-200 px-4 py-2.5 outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+            class="auth-input"
             placeholder="Min. 6 characters"
           />
         </div>
         <button
           type="submit"
           :disabled="loading"
-          class="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+          class="auth-submit"
         >
           {{ loading ? 'Creating account...' : 'Create Account' }}
         </button>
       </form>
 
-      <p class="mt-6 text-center text-sm text-stone-500">
+      <p class="auth-footer">
         Already have an account?
-        <router-link to="/login" class="text-blue-600 font-medium hover:underline">Sign in</router-link>
+        <router-link to="/login" class="auth-link">Sign in</router-link>
       </p>
     </div>
   </div>
