@@ -91,16 +91,10 @@ const memberToRemove = ref(null)
 const removingId = ref(null)
 const bid = businessStore.currentBusiness?.id
 
-function initials(name) { return name ? name.trim().split(/\s+/).slice(0, 2).map((part) => part[0].toUpperCase()).join('') : '?' }
-function roleClass(role) { return role === 'owner' ? 'bg-blue-50 text-blue-700' : role === 'agent' ? 'bg-emerald-50 text-emerald-700' : 'bg-stone-100 text-stone-600' }
-function closeModal() { if (inviting.value) return; showModal.value = false; inviteError.value = '' }
-
 async function loadMembers() {
-  if (!bid) { loading.value = false; return }
-  loading.value = true; loadError.value = false
-  try { const { data } = await api.get(`/team/${bid}/members`); members.value = data }
-  catch { loadError.value = true }
-  finally { loading.value = false }
+  if (!bid) return
+  const { data } = await api.get(`/team/${bid}/members`)
+  members.value = data
 }
 
 async function addMember() {
@@ -108,8 +102,9 @@ async function addMember() {
   actionError.value = ''
   actionSuccess.value = ''
   try {
-    await api.post(`/team/${bid}/members`, { email: inviteEmail.value.trim(), role: inviteRole.value })
-    showModal.value = false; inviteEmail.value = ''; message.value = 'Team member added.'; error.value = false
+    await api.post(`/team/${bid}/members`, { email: inviteEmail.value, role: inviteRole.value })
+    showModal.value = false
+    inviteEmail.value = ''
     await loadMembers()
     actionSuccess.value = 'Team member invited.'
   } catch (err) {
