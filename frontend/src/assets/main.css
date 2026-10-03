@@ -175,6 +175,10 @@ body {
 .landing-page [class~="bg-gray-50"] { background-color: #101117 !important; }
 .landing-page [class~="bg-indigo-50\/30"] { background-color: rgba(139, 115, 232, 0.095) !important; }
 .landing-page [class~="bg-indigo-100"] { background-color: rgba(139, 115, 232, 0.16) !important; }
+.landing-page [class~="text-stone-900"] { color: #f5f2fa !important; }
+.landing-page [class~="text-stone-800"] { color: #e7e3ee !important; }
+.landing-page [class~="text-stone-700"] { color: #d1cdda !important; }
+.landing-page [class~="text-stone-500"] { color: #a7a2b2 !important; }
 .landing-page [class~="text-gray-900"] { color: #f5f2fa !important; }
 .landing-page [class~="text-gray-800"] { color: #e7e3ee !important; }
 .landing-page [class~="text-gray-700"] { color: #d1cdda !important; }
