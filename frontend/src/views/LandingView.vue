@@ -1,56 +1,59 @@
 <template>
-  <div class="min-h-screen overflow-hidden bg-white text-stone-900">
-    <nav class="relative z-10 border-b border-white/10 bg-stone-950 text-white">
-      <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
-        <router-link to="/" class="flex items-center gap-2.5" aria-label="SupportAI home">
-          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500 shadow-lg shadow-blue-500/25">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.5a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 8.5v7A2.25 2.25 0 0 0 6 17.75h2.25L12 21l3.75-3.25H18A2.25 2.25 0 0 0 20.25 15.5v-7Z"/><path stroke-linecap="round" d="M8 10h8M8 13.5h5"/></svg>
-          </span>
-          <span class="text-lg font-bold tracking-tight">Support<span class="text-blue-300">AI</span></span>
-        </router-link>
-        <div class="flex items-center gap-3 sm:gap-6">
-          <a href="#how-it-works" class="hidden text-sm text-stone-300 transition hover:text-white sm:inline">How it works</a>
-          <router-link to="/login" class="text-sm font-medium text-stone-300 transition hover:text-white">Sign in</router-link>
-          <router-link to="/register" class="rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-stone-950 transition hover:bg-blue-50">Get started <span aria-hidden="true">→</span></router-link>
+  <div class="landing-page min-h-screen bg-white">
+    <!-- Navbar -->
+    <nav class="landing-nav">
+      <div class="landing-nav-inner">
+        <router-link to="/" class="landing-brand"><span class="landing-brand-mark">S</span><span>Support<span>AI</span></span></router-link>
+        <div class="landing-nav-links">
+          <a href="#how-it-works">How it works</a>
+          <a href="#features">Platform</a>
+          <router-link to="/login" class="landing-sign-in">Sign in</router-link>
+          <router-link to="/register" class="landing-nav-cta">Create workspace <span aria-hidden="true">↗</span></router-link>
         </div>
       </div>
     </nav>
 
-    <main>
-      <section class="relative isolate overflow-hidden bg-stone-950 text-white">
-        <div class="pointer-events-none absolute -left-40 top-8 h-96 w-96 rounded-full bg-blue-600/20 blur-3xl"></div>
-        <div class="pointer-events-none absolute -right-32 top-32 h-96 w-96 rounded-full bg-blue-500/15 blur-3xl"></div>
-        <div class="relative mx-auto grid max-w-7xl items-center gap-14 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[1.02fr_.98fr] lg:gap-10 lg:py-28">
-          <div class="max-w-2xl">
-            <div class="inline-flex items-center gap-2 rounded-full border border-blue-300/20 bg-blue-300/10 px-3.5 py-1.5 text-xs font-medium text-blue-100">
-              <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
-              Support that learns from your knowledge
-            </div>
-            <h1 class="mt-7 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">Helpful answers, from the knowledge <span class="bg-gradient-to-r from-blue-300 to-blue-300 bg-clip-text text-transparent">you already have.</span></h1>
-            <p class="mt-6 max-w-xl text-base leading-7 text-stone-300 sm:text-lg">Turn your documents into a support assistant. Find unanswered questions, improve your knowledge base, and add a chat widget to your website.</p>
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-              <router-link to="/register" class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-500 px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:bg-blue-400">Create your workspace <span aria-hidden="true">→</span></router-link>
-              <a href="#how-it-works" class="inline-flex items-center justify-center rounded-xl border border-white/15 px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-white/5">See how it works</a>
-            </div>
-            <div class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-xs text-stone-400">
-              <span class="inline-flex items-center gap-2"><span class="text-blue-400">✓</span> Use your own support content</span>
-              <span class="inline-flex items-center gap-2"><span class="text-blue-400">✓</span> Add to your site with an embed code</span>
+    <!-- Product-first hero -->
+    <section class="landing-hero">
+      <div class="landing-hero-copy">
+        <div class="landing-pill"><span></span> AI support that learns from every question</div>
+        <h2>Support that gets<br /><em>smarter over time.</em></h2>
+        <p>Turn your knowledge into a thoughtful support agent. Resolve routine questions instantly, surface what your docs are missing, and keep your team in control.</p>
+        <div class="landing-hero-actions">
+          <router-link to="/register" class="landing-primary-cta">Build your agent <span aria-hidden="true">→</span></router-link>
+          <a href="#how-it-works" class="landing-text-cta">Explore the platform <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="landing-proof"><span class="landing-proof-dot"></span> Private by design <span class="landing-proof-divider">/</span> Bring your own model key <span class="landing-proof-divider">/</span> One-line install</div>
+      </div>
+
+      <div class="landing-demo-wrap">
+        <div class="landing-demo-glow" aria-hidden="true"></div>
+        <div class="landing-demo-window">
+          <div class="landing-demo-toolbar"><div class="landing-window-dots"><i></i><i></i><i></i></div><span>store.example.com</span><span class="landing-demo-live"><i></i> LIVE PREVIEW</span></div>
+          <div class="landing-demo-content">
+            <div class="landing-demo-site-head"><span>MONO / GOODS</span><span>SHOP&nbsp;&nbsp; ABOUT&nbsp;&nbsp; JOURNAL</span></div>
+            <div class="landing-demo-site-copy"><span>OBJECTS FOR SLOW LIVING</span><strong>Made for the<br />everyday ritual.</strong><i></i><i></i></div>
+            <div class="landing-demo-chat">
+              <div class="landing-demo-chat-head"><span class="landing-demo-avatar">S</span><span><b>Studio assistant</b><small><i></i> Here to help</small></span><span class="landing-demo-menu">•••</span></div>
+              <div class="landing-demo-chat-body"><small>EXAMPLE CONVERSATION</small><div class="landing-demo-bubble">Hi there. Looking for a little more information?</div><div class="landing-demo-user-bubble">How long does shipping take?</div><div class="landing-demo-bubble">Most orders arrive in 3–5 business days. I can help you track yours, too.</div><div class="landing-demo-source"><span>✦</span> Answer grounded in Shipping guide</div></div>
+              <div class="landing-demo-input">Ask anything <span>↑</span></div>
             </div>
           </div>
+        </div>
+        <div class="landing-float-card"><span class="landing-float-icon">✦</span><span><b>Knowledge, connected</b><small>Answers with real sources</small></span><span class="landing-float-check">✓</span></div>
+      </div>
+    </section>
 
-          <div class="relative mx-auto w-full max-w-xl">
-            <div class="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-blue-500/20 to-blue-500/10 blur-2xl"></div>
-            <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-white text-stone-900 shadow-2xl shadow-black/30">
-              <div class="flex items-center justify-between border-b border-stone-100 px-5 py-4">
-                <div class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-600"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.5a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 8.5v7A2.25 2.25 0 0 0 6 17.75h2.25L12 21l3.75-3.25H18a2.25 2.25 0 0 0 2.25-2.25v-7Z"/></svg></span><div><p class="text-sm font-semibold">Support Assistant</p><p class="text-xs text-stone-400">Your knowledge, ready to help</p></div></div>
-                <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Online</span>
-              </div>
-              <div class="space-y-5 bg-blue-50 px-5 py-6 sm:px-7 sm:py-8">
-                <div class="max-w-[85%] rounded-2xl rounded-tl-md border border-stone-100 bg-white p-4 shadow-sm"><p class="text-xs font-medium text-blue-600">Support Assistant</p><p class="mt-2 text-sm leading-6 text-stone-700">Hi! Ask me about your product, policies, or getting started. I’ll look for the answer in the support information provided.</p></div>
-                <div class="ml-auto max-w-[78%] rounded-2xl rounded-tr-md bg-blue-600 p-4 text-white shadow-sm"><p class="text-xs text-blue-100">You</p><p class="mt-2 text-sm leading-6">How can I reset my password?</p></div>
-                <div class="max-w-[85%] rounded-2xl rounded-tl-md border border-stone-100 bg-white p-4 shadow-sm"><p class="text-xs font-medium text-blue-600">Support Assistant</p><p class="mt-2 text-sm leading-6 text-stone-700">Open account settings, choose <strong>Security</strong>, then select <strong>Reset password</strong>. A reset link will be sent to your email.</p><div class="mt-3 flex items-center gap-1.5 text-[11px] text-stone-400"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Based on your support content</div></div>
-              </div>
-              <div class="border-t border-stone-100 bg-white p-4"><div class="flex items-center justify-between rounded-xl border border-stone-200 px-4 py-3 text-sm text-stone-400"><span>Type your question...</span><span class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m5 12 14-7-4 14-3.5-5L5 12Zm6.5 2L19 5"/></svg></span></div></div>
+    <!-- How It Works -->
+    <section id="how-it-works" class="landing-process bg-gray-50 py-20">
+      <div class="max-w-6xl mx-auto px-6">
+        <h3 class="text-2xl font-bold text-gray-900 text-center mb-12">How It Works</h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div class="bg-white rounded-xl p-6 border border-gray-200 text-center">
+            <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+              </svg>
             </div>
             <div class="absolute -bottom-6 -left-4 hidden rounded-xl border border-white/10 bg-stone-900/90 px-4 py-3 text-xs text-white shadow-xl sm:block"><span class="mr-2 text-emerald-400">●</span>Knowledge gaps help you improve</div>
           </div>
@@ -69,13 +72,15 @@
         </div>
       </section>
 
-      <section class="bg-blue-50 py-20 sm:py-24">
-        <div class="mx-auto max-w-7xl px-5 sm:px-8">
-          <div class="grid items-start gap-12 lg:grid-cols-[.8fr_1.2fr]">
-            <div class="lg:sticky lg:top-12"><p class="text-sm font-semibold uppercase tracking-[0.16em] text-blue-600">Built for better answers</p><h2 class="mt-3 text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">A support assistant you can keep improving.</h2><p class="mt-5 text-base leading-7 text-stone-500">SupportAI combines your knowledge base with tools that help your team see what customers need next.</p><router-link to="/register" class="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900">Explore SupportAI <span aria-hidden="true">→</span></router-link></div>
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <article v-for="feature in features" :key="feature.title" class="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm"><span class="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-600"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m5 12 4 4L19 6"/></svg></span><h3 class="mt-4 text-sm font-semibold text-stone-900">{{ feature.title }}</h3><p class="mt-2 text-sm leading-6 text-stone-500">{{ feature.desc }}</p></article>
-            </div>
+    <!-- Features -->
+    <section id="features" class="landing-features bg-gray-50 py-20">
+      <div class="max-w-6xl mx-auto px-6">
+        <p class="landing-section-kicker">THE SUPPORTAI PLATFORM</p>
+        <h3 class="text-2xl font-bold text-gray-900 mb-12">Everything your support loop needs.</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div v-for="feature in features" :key="feature.title" class="bg-white p-5 rounded-xl border border-gray-200">
+            <h4 class="font-semibold text-gray-800 mb-1">{{ feature.title }}</h4>
+            <p class="text-sm text-gray-500">{{ feature.desc }}</p>
           </div>
         </div>
       </section>
@@ -100,11 +105,14 @@ const steps = [
 ]
 
 const features = [
-  { title: 'Answers grounded in your content', desc: 'Use retrieval-augmented generation to find relevant knowledge for each support question.' },
-  { title: 'PDF and document processing', desc: 'Bring product guides, policies, FAQs, and other support material into one knowledge base.' },
-  { title: 'Knowledge gap insights', desc: 'Review questions your current content does not answer well and decide what to add.' },
-  { title: 'FAQ suggestions', desc: 'Generate FAQ drafts from uploaded information, then review them before they go live.' },
-  { title: 'Human escalation', desc: 'Surface low-confidence conversations so a person can follow up when needed.' },
-  { title: 'Widget and team settings', desc: 'Customize the website widget and give teammates the access they need.' },
+  { title: 'Grounded answers', desc: 'Retrieval-Augmented Generation keeps answers tied to your uploaded source material and flags when information is missing.' },
+  { title: 'Multi-Provider LLM Support', desc: 'Choose between Google Gemini, OpenAI, or Anthropic. Bring your own API key.' },
+  { title: 'Knowledge Gap Detection', desc: 'AI identifies what your docs don\'t cover and suggests exactly what content to add.' },
+  { title: 'Auto-FAQ Generator', desc: 'AI reads your documents and auto-generates FAQ pairs. Review and accept with one click.' },
+  { title: 'Multi-Format Upload', desc: 'Supports PDF, DOCX, TXT files, and website URLs as knowledge sources.' },
+  { title: 'Intent-aware handoff', desc: 'Respect explicit requests for a person without turning every low-confidence answer into a false escalation.' },
+  { title: 'Embeddable Widget', desc: 'Add a chat widget to any website with a single script tag. Fully customizable.' },
+  { title: 'Team Collaboration', desc: 'Invite agents and viewers with role-based access to manage support together.' },
+  { title: 'Analytics Dashboard', desc: 'Track conversations, confidence scores, escalations, and document status at a glance.' },
 ]
 </script>

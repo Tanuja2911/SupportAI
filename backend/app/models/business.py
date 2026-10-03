@@ -1,4 +1,5 @@
 import uuid
+import secrets
 from datetime import datetime, timezone
 from sqlalchemy import Column, String, DateTime, Text
 from sqlalchemy.dialects.postgresql import UUID
@@ -15,6 +16,7 @@ class Business(Base):
     description = Column(Text, nullable=True)
     website = Column(String(500), nullable=True)
     api_key = Column(String(64), unique=True, nullable=False, index=True)
+    public_key = Column(String(64), unique=True, nullable=False, index=True, default=lambda: f"pk_{secrets.token_hex(16)}")
     llm_provider = Column(String(20), nullable=True, default="gemini")
     llm_api_key = Column(String(500), nullable=True)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))

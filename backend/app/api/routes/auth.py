@@ -82,6 +82,7 @@ def create_business(data: BusinessCreate, current_user: User = Depends(get_curre
         description=data.description,
         website=data.website,
         api_key=secrets.token_hex(32),
+        public_key=f"pk_{secrets.token_hex(16)}",
     )
     db.add(business)
     db.flush()

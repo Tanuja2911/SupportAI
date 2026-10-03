@@ -1,20 +1,21 @@
-import uuid
 import json
 import logging
+import re
+import uuid
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+
+
 from app.core.database import get_db
 from app.core.security import get_current_user
-from app.models.user import User
 from app.models.business import Business
+from app.models.document import Document, DocumentChunk, DocumentStatus
 from app.models.faq import FAQOverride
 from app.models.team import TeamMember
-from app.models.document import DocumentChunk, Document, DocumentStatus
+from app.models.user import User
 from app.schemas.chat import FAQCreate, FAQResponse
-from app.core.config import get_settings
 
 logger = logging.getLogger(__name__)
-settings = get_settings()
 router = APIRouter(prefix="/api/faq", tags=["faq"])
 
 
@@ -106,48 +107,87 @@ Return ONLY a valid JSON array of objects with "question" and "answer" keys. No 
 Example format:
 [{{"question": "What is your return policy?", "answer": "We offer a 30-day return policy..."}}]"""
 
-    provider = business.llm_provider or "gemini"
-    api_key = business.llm_api_key
-    if not api_key and provider == "gemini":
-        api_key = settings.GEMINI_API_KEY
-    if not api_key:
-        raise HTTPException(status_code=400, detail="No LLM API key configured. Add one in AI Settings.")
+    from app.services.llm_service import classify_llm_error, resolve_llm_credentials
+    provider, api_key = resolve_llm_credentials(business)
 
     try:
         from app.services.rag_engine import LLM_PROVIDERS, _call_gemini
         call_fn = LLM_PROVIDERS.get(provider, _call_gemini)
         raw = call_fn(api_key, prompt)
+    except Exception as error:
+        details = classify_llm_error(error, provider, api_key)
+        logger.warning(
+            "Auto-FAQ provider request failed (%s): %s",
+            details["error_code"],
+            details["diagnostic"],
+        )
+        raise HTTPException(
+            status_code=502,
+            detail={
+                "message": details["user_message"],
+                "error_code": details["error_code"],
+                "diagnostic": details["diagnostic"],
+                "action_hint": details["action_hint"],
+            },
+        ) from error
 
-        raw = raw.strip()
-        if raw.startswith("```"):
-            raw = raw.split("\n", 1)[1] if "\n" in raw else raw[3:]
-            if raw.endswith("```"):
-                raw = raw[:-3]
-            raw = raw.strip()
+    try:
+        suggestions = _parse_faq_suggestions(raw)
+    except (TypeError, ValueError, json.JSONDecodeError):
+        logger.warning("Auto-FAQ provider returned an invalid FAQ payload")
+        raise HTTPException(
+            status_code=502,
+            detail={
+                "message": "The AI provider returned an unreadable FAQ response. Please try again.",
+                "error_code": "INVALID_PROVIDER_RESPONSE",
+                "diagnostic": "Expected a JSON array of FAQ objects with non-empty question and answer fields.",
+                "action_hint": "Retry generation or choose another provider in AI Settings.",
+            },
+        )
 
-        suggestions = json.loads(raw)
-        if not isinstance(suggestions, list):
-            raise ValueError("Response is not a list")
+    return {"suggestions": suggestions}
 
-        result = []
-        for item in suggestions:
-            if isinstance(item, dict) and "question" in item and "answer" in item:
-                result.append({
-                    "question": str(item["question"]).strip(),
-                    "answer": str(item["answer"]).strip(),
-                })
 
-        if not result:
-            raise ValueError("No valid FAQ pairs generated")
+def _parse_faq_suggestions(raw: str) -> list[dict[str, str]]:
+    """Accept a JSON array directly or embedded in common provider markdown wrappers."""
+    if not isinstance(raw, str):
+        raise TypeError("FAQ response must be text")
+    if not raw.strip():
+        raise ValueError("Empty FAQ response")
 
-        return {"suggestions": result}
+    text = raw.strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```(?:json)?\s*|\s*```$", "", text, flags=re.IGNORECASE).strip()
 
+    try:
+        payload = json.loads(text)
     except json.JSONDecodeError:
-        logger.error(f"Failed to parse LLM response as JSON: {raw[:200]}")
-        raise HTTPException(status_code=500, detail="AI returned an invalid response. Please try again.")
-    except Exception as e:
-        logger.error(f"Auto-FAQ generation failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to generate FAQs: {str(e)}")
+        match = re.search(r"\[[\s\S]*\]", text)
+        if not match:
+            raise
+        payload = json.loads(match.group(0))
+
+    if not isinstance(payload, list):
+        raise TypeError("FAQ response must be a JSON array")
+
+    result = []
+    for item in payload:
+        if not isinstance(item, dict):
+            continue
+        question = item.get("question")
+        answer = item.get("answer")
+        if not isinstance(question, str) or not isinstance(answer, str):
+            continue
+        question = question.strip()
+        answer = answer.strip()
+        if question and answer:
+            result.append({"question": question, "answer": answer})
+        if len(result) == 8:
+            break
+
+    if not result:
+        raise ValueError("No valid FAQ pairs generated")
+    return result
 
 
 def _verify_access(db, user_id, business_id, require_role=None):

@@ -78,7 +78,7 @@ def analyze_knowledge_gaps(
         Message.conversation_id.in_(conv_ids),
         Message.sender == MessageSender.AI,
         Message.confidence_score < 0.6,
-        Message.confidence_score > 0.0,
+        Message.confidence_score >= 0.0,
     ).all()
 
     customer_queries = []
@@ -135,12 +135,8 @@ Return ONLY a valid JSON array. No markdown, no explanation.
 Format:
 [{{"topic": "Refund Policy", "description": "Customers frequently ask about refund timelines and eligibility", "suggestion": "Add a document covering your refund policy including timelines, eligibility criteria, and the refund process", "query_count": 5, "sample_queries": ["How do I get a refund?", "What is your return policy?"]}}]"""
 
-    provider = business.llm_provider or "gemini"
-    api_key = business.llm_api_key
-    if not api_key and provider == "gemini":
-        api_key = settings.GEMINI_API_KEY
-    if not api_key:
-        raise HTTPException(status_code=400, detail="No LLM API key configured. Add one in AI Settings.")
+    from app.services.llm_service import resolve_llm_credentials
+    provider, api_key = resolve_llm_credentials(business)
 
     try:
         from app.services.rag_engine import LLM_PROVIDERS, _call_gemini
@@ -194,7 +190,7 @@ Format:
         raise HTTPException(status_code=500, detail="AI returned an invalid response. Please try again.")
     except Exception as e:
         logger.error(f"Knowledge gap analysis failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
+        raise HTTPException(status_code=500, detail="Knowledge gap analysis failed. Please try again.")
 
 
 @router.patch("/{business_id}/{gap_id}")

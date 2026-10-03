@@ -16,6 +16,9 @@ class ChatResponse(BaseModel):
     confidence_score: float
     sources: list[dict] = []
     is_escalated: bool = False
+    error_code: str | None = None
+    diagnostic: str | None = None
+    action_hint: str | None = None
 
 
 class ConversationResponse(BaseModel):
